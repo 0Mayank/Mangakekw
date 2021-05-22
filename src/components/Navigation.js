@@ -15,15 +15,6 @@ class Navigation extends React.Component {
                   </form>
                 </div>
             </nav>
-          // <div class="container-fluid" style={{background: "black", height: "10vh"}}>
-          //   <nav class="navbar" style={{height: "10vh", background: "black"}}>
-          //     <div class="navbar-brand" style={{fontSize: 30, color: "powderblue"}}>MangaKEKW</div>
-          //       <form class="form-inline input-group" style={{background: "rgb(33, 36, 41)"}}>
-          //         <input class="form-control" type="search" placeholder="Search" aria-label="Search"></input>
-          //         <button class="btn btn-info input-group-append" type="submit">Search</button>
-          //       </form>
-          //     </nav>
-          //   </div>
         )
     }
 }
