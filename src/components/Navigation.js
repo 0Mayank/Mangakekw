@@ -1,6 +1,4 @@
-import { buildQueries } from '@testing-library/dom';
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 class Navigation extends React.Component {
     render() {
