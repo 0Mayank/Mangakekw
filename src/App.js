@@ -1,16 +1,30 @@
 import './App.css';
 import Navigation from './components/Navigation.js'
-import Cards from './components/Cards.js'
+import BigCard from './components/BigCard.js'
+import SmallCards from './components/SmallCards.js'
 import "bootstrap/dist/css/bootstrap.min.css"
+import React from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <Navigation />
-      <Cards />
-      <div class='container-fluid' style={{background: 'powderblue', width: '100vw', height: '100vh'}}></div>
-    </div>
-  );
+class App extends React.Component {
+
+  // get_cards(n)
+  // {
+  //   let cards = []
+  //   for(let i=0; i<n; i++)
+  //     cards.push(<Cards/>)
+  //   return cards
+  // }
+
+  render() {
+    return (
+      <div className="App">
+        <Navigation />
+        <BigCard />
+        <SmallCards />
+        <div className='container-fluid' style={{background:'#37393e', width: '100vw', height: '100vh' }}></div>
+      </div>
+    );
+  }
 }
 
 export default App;
