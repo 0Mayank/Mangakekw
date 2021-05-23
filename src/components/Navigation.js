@@ -9,7 +9,7 @@ class Navigation extends React.Component {
                 <div className="container offset-5" style={{width: "30vw"}}>
                   <form className="form-inline input-group" style={{background: "rgb(33, 36, 41)"}}>
                     <input className="form-control" type="search" placeholder="Search" aria-label="Search"></input>
-                    <button className="btn btn-info input-group-append" type="submit">Search</button>
+                      <button className="btn btn-info input-group-append" type="submit">Search</button>
                   </form>
               </div>
         </nav>
