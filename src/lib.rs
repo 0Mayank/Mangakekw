@@ -3,26 +3,26 @@ use std::{error::Error, str};
 
 #[derive(Debug)]
 pub struct MangadexReq {
-    query: String,
+    base: String,
 }
 
 impl MangadexReq {
-    pub fn new(query: &str) -> MangadexReq {
+    pub fn new(base: &str) -> MangadexReq {
         MangadexReq {
-            query: String::from(query)
+            base: String::from(base)
         }
     }
 
-    pub fn get(self) -> Result<String, Box<dyn Error>> {
-        match  get_data(self.query) {
+    pub fn get(&self, query: &str) -> Result<String, Box<dyn Error>> {
+        match  get_data(&self.base, query) {
             Ok(s) => Ok(s),
             Err(e) => return Err(e)
         }
     }
 }
 
-fn get_data(query: String) -> Result<String, Box<dyn std::error::Error>> {
-    let json_text = reqwest::blocking::get(format!("https://api.mangadex.org/{}", query))?.text()?;
+fn get_data(base: &str, query: &str) -> Result<String, Box<dyn std::error::Error>> {
+    let json_text = reqwest::blocking::get(format!("{}/{}", base, query))?.text()?;
 
     Ok(json_text)
 }
