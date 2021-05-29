@@ -1,5 +1,5 @@
 
-use std::{error::Error, str};
+use std::error::Error;
 
 #[derive(Debug)]
 pub struct MangadexReq {
