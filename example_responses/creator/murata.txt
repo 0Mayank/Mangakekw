@@ -1,0 +1,57 @@
+{
+  "result": "ok",
+  "data": {
+    "id": "47cd4e57-3fc4-4d76-97e4-b3933a5b05ef",
+    "type": "author",
+    "attributes": {
+      "name": "Murata Yuusuke",
+      "imageUrl": null,
+      "biography": [],
+      "createdAt": "2021-04-19T21:59:45+00:00",
+      "updatedAt": "2021-04-19T21:59:45+00:00",
+      "version": 1
+    }
+  },
+  "relationships": [
+    {
+      "id": "1963aa8a-c46c-40b2-9f7b-b73ac077a884",
+      "type": "manga"
+    },
+    {
+      "id": "ff327450-be88-4f41-a780-df4d2387e2e6",
+      "type": "manga"
+    },
+    {
+      "id": "29c42e49-d6f5-4084-9cec-771f5660c90f",
+      "type": "manga"
+    },
+    {
+      "id": "d890ccf5-f17a-43f6-bff1-91932cc89670",
+      "type": "manga"
+    },
+    {
+      "id": "52606a89-e4c5-4fcb-a447-51aa4a898d00",
+      "type": "manga"
+    },
+    {
+      "id": "6259f21b-1572-4bf6-9797-d44789b3355c",
+      "type": "manga"
+    },
+    {
+      "id": "97e89fdb-4d66-4a42-a817-873dc99dc4e8",
+      "type": "manga"
+    },
+    {
+      "id": "2f410254-75ea-42f4-826e-60921d498c3a",
+      "type": "manga"
+    },
+    {
+      "id": "d8a959f7-648e-4c8d-8f23-f1f3f8e129f3",
+      "type": "manga"
+    },
+    {
+      "id": "360b3573-ca0e-492a-8ccd-ba127302e437",
+      "type": "manga"
+    }
+  ]
+}
