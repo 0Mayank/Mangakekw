@@ -18,7 +18,7 @@ pub enum TagGroup {
     Format,
 }
 
-#[derive(Deserialize, Serialize)]
+#[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all(deserialize = "camelCase", serialize = "camelCase"))]
 pub enum Demographic {
     Shounen,
@@ -26,7 +26,7 @@ pub enum Demographic {
     Shoujou,
     Josei,
 }
-#[derive(Deserialize, Serialize)]
+#[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all(deserialize = "camelCase", serialize = "camelCase"))]
 pub enum Status {
     Ongoing,

@@ -1,0 +1,134 @@
+use crate::dexwrapper::utils::Demographic;
+
+use super::parser;
+use super::Manga;
+use serde_json;
+use std::borrow::Borrow;
+use std::fs;
+
+fn load_test_responses() -> Vec<Manga> {
+    [
+        fs::read_to_string("example_responses\\manga\\opm.txt").unwrap(),
+        fs::read_to_string("example_responses\\manga\\slime.txt").unwrap(),
+        fs::read_to_string("example_responses\\manga\\solo.txt").unwrap(),
+    ]
+    .iter()
+    .map(|response_text| serde_json::from_str::<parser::MangaResponse>(response_text).unwrap())
+    .map(|response| Manga::from_response(response))
+    .collect()
+}
+#[test]
+pub fn manga_name() {
+    let test_responses = load_test_responses();
+
+    let opm = test_responses.get(0).unwrap();
+    let slime = test_responses.get(1).unwrap();
+    let solo = test_responses.get(2).unwrap();
+
+    assert_eq!(opm.title.get("en").unwrap(), "One Punch-Man");
+    assert_eq!(
+        slime.title.get("en").unwrap(),
+        "Tensei Shitara Slime Datta Ken"
+    );
+    assert_eq!(solo.title.get("en").unwrap(), "Solo Leveling");
+}
+
+#[test]
+pub fn manga_id() {
+    let test_responses = load_test_responses();
+
+    let opm = test_responses.get(0).unwrap();
+    let slime = test_responses.get(1).unwrap();
+    let solo = test_responses.get(2).unwrap();
+
+    assert_eq!(opm.id, "d8a959f7-648e-4c8d-8f23-f1f3f8e129f3");
+    assert_eq!(slime.id, "e78a489b-6632-4d61-b00b-5206f5b8b22b");
+    assert_eq!(solo.id, "32d76d19-8a05-4db0-9fc2-e0b0648fe9d0");
+}
+
+#[test]
+pub fn manga_demographic() {
+    let test_responses = load_test_responses();
+
+    let opm = test_responses.get(0).unwrap();
+    let slime = test_responses.get(1).unwrap();
+    let solo = test_responses.get(2).unwrap();
+
+    match opm.publication_demographic.borrow() {
+        Some(Demographic::Seinen) => {}
+        _ => panic!("Wrong Demographic of OPM"),
+    }
+
+    match slime.publication_demographic.borrow() {
+        Some(Demographic::Shounen) => {}
+        _ => panic!("Wrong Demographic of slime"),
+    }
+
+    match solo.publication_demographic.borrow() {
+        Some(Demographic::Shounen) => {}
+        _ => panic!("Wrong Demographic of solo"),
+    }
+}
+
+#[test]
+pub fn manga_status() {
+    let test_responses = load_test_responses();
+
+    let opm = test_responses.get(0).unwrap();
+    let slime = test_responses.get(1).unwrap();
+    let solo = test_responses.get(2).unwrap();
+
+    match opm.status {
+        crate::dexwrapper::utils::Status::Ongoing => {}
+        _ => panic!("Wrong Status"),
+    }
+
+    match slime.status {
+        crate::dexwrapper::utils::Status::Ongoing => {}
+        _ => panic!("Wrong Status"),
+    }
+
+    match solo.status {
+        crate::dexwrapper::utils::Status::Ongoing => {}
+        _ => panic!("Wrong Status"),
+    }
+}
+
+#[test]
+pub fn manga_rating() {
+    let test_responses = load_test_responses();
+
+    let opm = test_responses.get(0).unwrap();
+    let slime = test_responses.get(1).unwrap();
+    let solo = test_responses.get(2).unwrap();
+
+    assert_eq!(opm.content_rating, "safe");
+    assert_eq!(slime.content_rating, "safe");
+    assert_eq!(solo.content_rating, "safe");
+}
+
+#[test]
+pub fn manga_author() {
+    let test_responses = load_test_responses();
+
+    let opm = test_responses.get(0).unwrap();
+    let slime = test_responses.get(1).unwrap();
+    let solo = test_responses.get(2).unwrap();
+
+    assert_eq!(opm.author_id, "16b98239-6452-4859-b6df-fdb1c7f12b52");
+    assert_eq!(slime.author_id, "dbf8af05-7173-49f3-bf60-f4ea3f586486");
+    assert_eq!(solo.author_id, "820b13ef-dc7d-42b1-999a-65393b8b4040");
+}
+
+#[test]
+pub fn manga_artist() {
+    let test_responses = load_test_responses();
+
+    let opm = test_responses.get(0).unwrap();
+    let slime = test_responses.get(1).unwrap();
+    let solo = test_responses.get(2).unwrap();
+
+    assert_eq!(opm.artist_id, "47cd4e57-3fc4-4d76-97e4-b3933a5b05ef");
+    assert_eq!(slime.artist_id, "560748c6-fbe7-49f5-8258-7b3292942101");
+    assert_eq!(solo.artist_id, "86f43f7f-7f32-4ecb-8dd9-7cd2ae16932b");
+}

@@ -1,8 +1,9 @@
-pub mod pasrer;
+pub mod parser;
+mod tests;
 
 use super::utils;
 use chrono::{DateTime, FixedOffset};
-use pasrer::*;
+use parser::*;
 use serde::Serialize;
 use serde_json;
 

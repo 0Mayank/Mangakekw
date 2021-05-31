@@ -1,0 +1,41 @@
+{
+  "result": "ok",
+  "data": {
+    "id": "dbf8af05-7173-49f3-bf60-f4ea3f586486",
+    "type": "author",
+    "attributes": {
+      "name": "Fuse",
+      "imageUrl": null,
+      "biography": [],
+      "createdAt": "2021-04-19T21:59:45+00:00",
+      "updatedAt": "2021-04-19T21:59:45+00:00",
+      "version": 1
+    }
+  },
+  "relationships": [
+    {
+      "id": "c8e83aab-43e8-425c-bd55-e7fa7fd666f7",
+      "type": "manga"
+    },
+    {
+      "id": "cab847c6-2748-4259-b9f4-c62bffd51311",
+      "type": "manga"
+    },
+    {
+      "id": "5ede3032-6278-439f-a06b-c3f6d1493554",
+      "type": "manga"
+    },
+    {
+      "id": "1180743d-8e38-4c00-b767-c53169fadc6a",
+      "type": "manga"
+    },
+    {
+      "id": "a1343483-8779-4b6f-b919-9025a89d98c3",
+      "type": "manga"
+    },
+    {
+      "id": "e78a489b-6632-4d61-b00b-5206f5b8b22b",
+      "type": "manga"
+    }
+  ]
+}
