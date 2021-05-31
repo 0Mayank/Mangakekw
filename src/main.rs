@@ -2,7 +2,7 @@
 
 #[macro_use] extern crate rocket;
 
-use Mangakekw::MangadexReq;
+mod dexrequest;
 
 #[get("/")]
 fn index() -> &'static str {
