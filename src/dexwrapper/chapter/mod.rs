@@ -1,4 +1,4 @@
-mod parser;
+pub mod parser;
 mod tests;
 
 use super::utils;
@@ -7,7 +7,7 @@ use serde::Serialize;
 
 #[derive(Serialize)]
 #[serde(rename_all(deserialize = "camelCase", serialize = "camelCase"))]
-struct Chapter {
+pub struct Chapter {
     id: String,
     title: String,
     volume: Option<String>,
@@ -49,5 +49,10 @@ impl Chapter {
         } else {
             serde_json::to_string(self).unwrap()
         }
+    }
+
+    pub fn from_string(string: String) -> Result<Self, serde_json::Error> {
+        let response: ChapterResponse = serde_json::from_str(&string)?;
+        Ok(Self::from_response(response))
     }
 }

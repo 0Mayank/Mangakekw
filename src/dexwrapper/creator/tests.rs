@@ -1,6 +1,4 @@
-use super::parser;
 use super::CreatorTemplate;
-use serde_json;
 use std::fs;
 
 #[allow(dead_code)]
@@ -11,8 +9,7 @@ fn load_test_responses() -> Vec<CreatorTemplate> {
         fs::read_to_string("example_responses\\creator\\chugong.txt").unwrap(),
     ]
     .iter()
-    .map(|response_text| serde_json::from_str::<parser::CreatorResponse>(response_text).unwrap())
-    .map(|response| CreatorTemplate::from_response(response))
+    .map(|response_text| CreatorTemplate::from_string(response_text.to_string()).unwrap())
     .collect()
 }
 #[test]

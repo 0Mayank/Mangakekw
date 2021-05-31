@@ -1,14 +1,11 @@
-use super::parser;
 use super::Chapter;
-use serde_json;
 use std::fs;
 
 #[allow(dead_code)]
 fn load_test_responses() -> Chapter {
     let s = fs::read_to_string("example_responses\\chapter\\1.txt").unwrap();
 
-    let response: parser::ChapterResponse = serde_json::from_str(&s).unwrap();
-    Chapter::from_response(response)
+    Chapter::from_string(s).unwrap()
 }
 #[test]
 pub fn chapter_title() {

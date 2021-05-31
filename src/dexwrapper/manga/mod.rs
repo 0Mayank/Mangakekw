@@ -131,4 +131,10 @@ impl Manga {
             serde_json::to_string(self).unwrap()
         }
     }
+
+    #[allow(dead_code)]
+    pub fn from_string(string: String) -> Result<Self, serde_json::Error> {
+        let response: MangaResponse = serde_json::from_str(&string)?;
+        Ok(Self::from_response(response))
+    }
 }

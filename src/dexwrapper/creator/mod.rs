@@ -43,6 +43,12 @@ impl CreatorTemplate {
             serde_json::to_string(self).unwrap()
         }
     }
+
+    #[allow(dead_code)]
+    pub fn from_string(string: String) -> Result<Self, serde_json::Error> {
+        let response: CreatorResponse = serde_json::from_str(&string)?;
+        Ok(Self::from_response(response))
+    }
 }
 #[derive(Serialize)]
 #[allow(dead_code)]

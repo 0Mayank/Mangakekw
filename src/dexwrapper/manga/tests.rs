@@ -1,10 +1,7 @@
 #[allow(unused_imports)]
 use crate::dexwrapper::utils::Demographic;
 
-use super::parser;
 use super::Manga;
-use serde_json;
-
 #[allow(unused_imports)]
 use std::borrow::Borrow;
 use std::fs;
@@ -17,8 +14,7 @@ fn load_test_responses() -> Vec<Manga> {
         fs::read_to_string("example_responses\\manga\\solo.txt").unwrap(),
     ]
     .iter()
-    .map(|response_text| serde_json::from_str::<parser::MangaResponse>(response_text).unwrap())
-    .map(|response| Manga::from_response(response))
+    .map(|response_text| Manga::from_string(response_text.to_string()).unwrap())
     .collect()
 }
 #[test]

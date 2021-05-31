@@ -26,11 +26,17 @@ impl MangaList {
     }
 
     #[allow(dead_code)]
-    pub fn deserialize(&self, pretty: bool) -> String {
+    pub fn serialize(&self, pretty: bool) -> String {
         if pretty {
             serde_json::to_string_pretty(self).unwrap()
         } else {
             serde_json::to_string(self).unwrap()
         }
+    }
+
+    #[allow(dead_code)]
+    pub fn from_string(string: String) -> Result<Self, serde_json::Error> {
+        let response: MangaListResponse = serde_json::from_str(&string)?;
+        Ok(Self::from_response(response))
     }
 }
