@@ -1,11 +1,11 @@
 #![feature(proc_macro_hygiene, decl_macro)]
-
 #[macro_use]
 extern crate rocket;
 
 mod dexwrapper;
 
-use Mangakekw::MangadexReq;
+#[allow(unused_imports)]
+use mangakekw::MangadexReq;
 
 #[get("/")]
 fn index() -> &'static str {
