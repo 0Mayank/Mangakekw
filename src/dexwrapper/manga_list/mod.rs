@@ -7,7 +7,7 @@ use serde::Serialize;
 
 #[derive(Serialize)]
 #[serde(rename_all(deserialize = "camelCase", serialize = "camelCase"))]
-struct MangaList {
+pub struct MangaList {
     data: Vec<manga::Manga>,
     count: usize,
 }

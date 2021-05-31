@@ -51,5 +51,5 @@ pub struct Relationship {
     pub id: String,
 
     #[allow(non_snake_case)]
-    pub r#type: RelationshipType,
+    pub r#type: RelationshipType,    
 }
