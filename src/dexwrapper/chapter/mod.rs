@@ -1,5 +1,7 @@
 mod parser;
+mod tests;
 
+use super::utils;
 use parser::*;
 use serde::Serialize;
 
@@ -12,12 +14,21 @@ struct Chapter {
     chapter: Option<String>,
     translated_language: String,
     hash: String,
-    data: String,
+    data: Vec<String>,
+    data_saver: Vec<String>,
+    manga_id: String,
 }
 
 impl Chapter {
     #[allow(dead_code)]
     pub fn from_response(response: ChapterResponse) -> Self {
+        let mut manga_id = String::new();
+        for relation in response.relationships {
+            match relation.r#type {
+                utils::RelationshipType::Manga => manga_id = relation.id,
+                _ => (),
+            }
+        }
         Chapter {
             id: response.data.id,
             title: response.data.attributes.title,
@@ -26,6 +37,8 @@ impl Chapter {
             translated_language: response.data.attributes.translated_language,
             hash: response.data.attributes.hash,
             data: response.data.attributes.data,
+            data_saver: response.data.attributes.data_saver,
+            manga_id,
         }
     }
 

@@ -74,7 +74,7 @@ impl Manga {
         let mut artist_id: String = String::new();
 
         for relation in relations {
-            match relation.Type {
+            match relation.r#type {
                 utils::RelationshipType::Author => author_id = relation.id.clone(),
                 utils::RelationshipType::Artist => artist_id = relation.id.clone(),
                 _ => (),

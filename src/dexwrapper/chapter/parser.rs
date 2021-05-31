@@ -7,7 +7,7 @@ use serde::Deserialize;
 pub struct ChapterResponse {
     pub result: utils::ResponseResult,
     pub data: ChapterRaw,
-    pub relationship: Vec<utils::Relationship>,
+    pub relationships: Vec<utils::Relationship>,
 }
 
 #[derive(Deserialize)]
@@ -27,5 +27,6 @@ pub struct ChapterAtribs {
     pub chapter: Option<String>,
     pub translated_language: String,
     pub hash: String,
-    pub data: String,
+    pub data: Vec<String>,
+    pub data_saver: Vec<String>,
 }
