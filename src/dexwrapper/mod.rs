@@ -1,3 +1,4 @@
+pub mod chapter;
 pub mod creator;
 pub mod manga;
 pub mod manga_list;

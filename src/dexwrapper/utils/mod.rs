@@ -41,3 +41,13 @@ pub enum ResponseResult {
     Ok,
     Error,
 }
+
+#[derive(Deserialize)]
+#[allow(dead_code)]
+#[serde(rename_all(deserialize = "camelCase", serialize = "camelCase"))]
+pub struct Relationship {
+    pub id: String,
+
+    #[allow(non_snake_case)]
+    pub Type: RelationshipType,
+}

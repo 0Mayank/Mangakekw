@@ -35,15 +35,7 @@ pub struct MangaRaw {
 pub struct MangaResponse {
     result: utils::ResponseResult,
     pub data: MangaRaw,
-    pub relationships: Vec<MangaRelation>,
-}
-#[derive(Deserialize)]
-#[allow(dead_code)]
-#[allow(non_snake_case)]
-#[serde(rename_all(deserialize = "camelCase", serialize = "camelCase"))]
-pub struct MangaRelation {
-    pub id: String,
-    pub Type: utils::RelationshipType,
+    pub relationships: Vec<utils::Relationship>,
 }
 
 #[derive(Deserialize)]

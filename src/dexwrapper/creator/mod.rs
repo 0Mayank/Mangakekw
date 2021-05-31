@@ -36,7 +36,7 @@ impl CreatorTemplate {
     }
 
     #[allow(dead_code)]
-    pub fn deserialize(&self, pretty: bool) -> String {
+    pub fn serialize(&self, pretty: bool) -> String {
         if pretty {
             serde_json::to_string_pretty(self).unwrap()
         } else {

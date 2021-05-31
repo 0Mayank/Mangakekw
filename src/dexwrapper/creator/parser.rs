@@ -7,7 +7,7 @@ use serde::Deserialize;
 pub struct CreatorResponse {
     pub result: utils::ResponseResult,
     pub data: CreatorRaw,
-    pub relationships: Vec<CreatorRelation>,
+    pub relationships: Vec<utils::Relationship>,
 }
 
 #[derive(Deserialize)]
@@ -15,14 +15,6 @@ pub struct CreatorResponse {
 pub struct CreatorRaw {
     pub id: String,
     pub attributes: CreatorAtribs,
-}
-
-#[derive(Deserialize)]
-#[allow(non_snake_case)]
-#[serde(rename_all(deserialize = "camelCase", serialize = "camelCase"))]
-pub struct CreatorRelation {
-    pub id: String,
-    pub Type: utils::RelationshipType,
 }
 
 #[derive(Deserialize)]
