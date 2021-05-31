@@ -1,11 +1,15 @@
+#[allow(unused_imports)]
 use crate::dexwrapper::utils::Demographic;
 
 use super::parser;
 use super::Manga;
 use serde_json;
+
+#[allow(unused_imports)]
 use std::borrow::Borrow;
 use std::fs;
 
+#[allow(dead_code)]
 fn load_test_responses() -> Vec<Manga> {
     [
         fs::read_to_string("example_responses\\manga\\opm.txt").unwrap(),

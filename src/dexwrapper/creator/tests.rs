@@ -3,6 +3,7 @@ use super::CreatorTemplate;
 use serde_json;
 use std::fs;
 
+#[allow(dead_code)]
 fn load_test_responses() -> Vec<CreatorTemplate> {
     [
         fs::read_to_string("example_responses\\creator\\murata.txt").unwrap(),
