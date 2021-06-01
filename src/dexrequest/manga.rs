@@ -1,10 +1,12 @@
 use super::utils::{get_data, parse_url};
 use std::collections::HashMap;
+
+#[allow(unused_imports)]
 use crate::dexwrapper::{manga::Manga, manga_list::MangaList};
 
 pub fn search_manga(query_params: HashMap<&str, &str>) -> MangaList {
     let uri = parse_url("https://api.mangadex.org/manga", query_params);
-    let manga_list = match get_data(&uri){
+    let manga_list = match get_data(&uri) {
         Ok(s) => s,
         Err(_) => panic!(),
     };
@@ -28,6 +30,9 @@ pub fn get_manga_random() -> () {
 }
 
 pub fn feed_manga(id: &str, query_params: HashMap<&str, &str>) -> () {
-    let uri = parse_url(&format!("https://api.mangadex.org/manga/{}/feed", id), query_params);
-    let _chapters = get_data(&uri); 
+    let uri = parse_url(
+        &format!("https://api.mangadex.org/manga/{}/feed", id),
+        query_params,
+    );
+    let _chapters = get_data(&uri);
 }

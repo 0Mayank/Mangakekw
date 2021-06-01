@@ -8,35 +8,35 @@ use serde::Serialize;
 use serde_json;
 
 #[derive(Serialize)]
-#[serde(rename_all(deserialize = "camelCase", serialize = "camelCase"))]
+#[serde(rename_all(serialize = "camelCase"))]
 pub struct Genre {
     id: String,
     name: String,
 }
 
 #[derive(Serialize)]
-#[serde(rename_all(deserialize = "camelCase", serialize = "camelCase"))]
+#[serde(rename_all(serialize = "camelCase"))]
 pub struct Theme {
     id: String,
     name: String,
 }
 
 #[derive(Serialize)]
-#[serde(rename_all(deserialize = "camelCase", serialize = "camelCase"))]
+#[serde(rename_all(serialize = "camelCase"))]
 pub struct Content {
     id: String,
     name: String,
 }
 
 #[derive(Serialize)]
-#[serde(rename_all(deserialize = "camelCase", serialize = "camelCase"))]
+#[serde(rename_all(serialize = "camelCase"))]
 pub struct Format {
     id: String,
     name: String,
 }
 
 #[derive(Serialize)]
-#[serde(rename_all(deserialize = "camelCase", serialize = "camelCase"))]
+#[serde(rename_all(serialize = "camelCase"))]
 pub struct Manga {
     pub id: String,
     pub title: Title,

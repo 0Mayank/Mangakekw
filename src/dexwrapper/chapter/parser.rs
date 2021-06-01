@@ -1,26 +1,11 @@
 use super::super::utils;
 use serde::Deserialize;
 
-#[derive(Deserialize)]
-#[allow(dead_code)]
-#[serde(rename_all(deserialize = "camelCase", serialize = "camelCase"))]
-pub struct ChapterResponse {
-    pub result: utils::ResponseResult,
-    pub data: ChapterRaw,
-    pub relationships: Vec<utils::Relationship>,
-}
+pub type ChapterResponse = utils::DexResponse<ChapterAtribs>;
 
 #[derive(Deserialize)]
 #[allow(dead_code)]
-#[serde(rename_all(deserialize = "camelCase", serialize = "camelCase"))]
-pub struct ChapterRaw {
-    pub id: String,
-    pub attributes: ChapterAtribs,
-}
-
-#[derive(Deserialize)]
-#[allow(dead_code)]
-#[serde(rename_all(deserialize = "camelCase", serialize = "camelCase"))]
+#[serde(rename_all(deserialize = "camelCase"))]
 pub struct ChapterAtribs {
     pub title: String,
     pub volume: Option<String>,

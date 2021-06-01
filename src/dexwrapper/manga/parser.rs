@@ -5,7 +5,7 @@ use std::{collections::HashMap, usize};
 pub type Title = HashMap<String, String>;
 
 #[derive(Deserialize)]
-#[serde(rename_all(deserialize = "camelCase", serialize = "camelCase"))]
+#[serde(rename_all(deserialize = "camelCase"))]
 pub struct MangaAtribs {
     pub title: Title,
     pub alt_titles: Vec<Title>,
@@ -22,37 +22,23 @@ pub struct MangaAtribs {
     pub tags: Vec<Tag>,
 }
 
-#[derive(Deserialize)]
-#[serde(rename_all(deserialize = "camelCase", serialize = "camelCase"))]
-pub struct MangaRaw {
-    pub id: String,
-    pub attributes: MangaAtribs,
-}
+pub type MangaResponse = utils::DexResponse<MangaAtribs>;
 
 #[derive(Deserialize)]
-#[allow(dead_code)]
-#[serde(rename_all(deserialize = "camelCase", serialize = "camelCase"))]
-pub struct MangaResponse {
-    result: utils::ResponseResult,
-    pub data: MangaRaw,
-    pub relationships: Vec<utils::Relationship>,
-}
-
-#[derive(Deserialize)]
-#[serde(rename_all(deserialize = "camelCase", serialize = "camelCase"))]
+#[serde(rename_all(deserialize = "camelCase"))]
 pub struct Tag {
     pub id: String,
     pub attributes: TagAtrib,
 }
 #[derive(Deserialize)]
-#[serde(rename_all(deserialize = "camelCase", serialize = "camelCase"))]
+#[serde(rename_all(deserialize = "camelCase"))]
 pub struct TagAtrib {
     pub name: TagName,
     pub group: utils::TagGroup,
 }
 
 #[derive(Deserialize)]
-#[serde(rename_all(deserialize = "camelCase", serialize = "camelCase"))]
+#[serde(rename_all(deserialize = "camelCase"))]
 pub struct TagName {
     pub en: String,
 }

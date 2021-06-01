@@ -6,7 +6,7 @@ use parser::*;
 use serde::Serialize;
 
 #[derive(Serialize)]
-#[serde(rename_all(deserialize = "camelCase", serialize = "camelCase"))]
+#[serde(rename_all(serialize = "camelCase"))]
 pub struct CreatorTemplate {
     id: String,
     name: String,

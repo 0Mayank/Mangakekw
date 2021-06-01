@@ -51,5 +51,29 @@ pub struct Relationship {
     pub id: String,
 
     #[allow(non_snake_case)]
-    pub r#type: RelationshipType,    
+    pub r#type: RelationshipType,
+}
+#[derive(Deserialize)]
+#[allow(dead_code)]
+#[serde(rename_all(deserialize = "camelCase"))]
+pub struct DexResponse<T> {
+    pub result: ResponseResult,
+    pub data: DexRaw<T>,
+    pub relationships: Vec<Relationship>,
+}
+
+#[derive(Deserialize)]
+#[allow(dead_code)]
+#[serde(rename_all(deserialize = "camelCase"))]
+pub struct DexListResponse<T> {
+    pub results: Vec<T>,
+    pub total: i32,
+}
+
+#[derive(Deserialize)]
+#[allow(dead_code)]
+#[serde(rename_all(deserialize = "camelCase"))]
+pub struct DexRaw<T> {
+    pub id: String,
+    pub attributes: T,
 }
