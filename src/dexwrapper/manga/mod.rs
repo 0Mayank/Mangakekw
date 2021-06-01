@@ -57,6 +57,7 @@ pub struct Manga {
     pub format: Vec<Format>,
     pub author_id: String,
     pub artist_id: String,
+    pub cover_id: String,
 }
 
 #[allow(dead_code)]
@@ -72,11 +73,13 @@ impl Manga {
 
         let mut author_id: String = String::new();
         let mut artist_id: String = String::new();
+        let mut cover_id: String = String::new();
 
         for relation in relations {
             match relation.r#type {
                 utils::RelationshipType::Author => author_id = relation.id.clone(),
                 utils::RelationshipType::Artist => artist_id = relation.id.clone(),
+                utils::RelationshipType::CoverArt => cover_id = relation.id.clone(),
                 _ => (),
             }
         }
@@ -121,6 +124,7 @@ impl Manga {
             content,
             author_id,
             artist_id,
+            cover_id,
         }
     }
 

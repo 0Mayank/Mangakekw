@@ -132,3 +132,16 @@ pub fn manga_artist() {
     assert_eq!(slime.artist_id, "560748c6-fbe7-49f5-8258-7b3292942101");
     assert_eq!(solo.artist_id, "86f43f7f-7f32-4ecb-8dd9-7cd2ae16932b");
 }
+
+#[test]
+pub fn manga_cover() {
+    let test_responses = load_test_responses();
+
+    let opm = test_responses.get(0).unwrap();
+    let slime = test_responses.get(1).unwrap();
+    let solo = test_responses.get(2).unwrap();
+
+    assert_eq!(opm.cover_id, "f1bf8066-d8fc-4fc8-aea3-5b382ba4ee2f");
+    assert_eq!(slime.cover_id, "0ecefb70-e710-4f5a-94c0-d3a01db0a5a5");
+    assert_eq!(solo.cover_id, "b6c7ce9c-e671-4f26-90b0-e592188e9cd6");
+}
