@@ -1,4 +1,5 @@
 pub mod parser;
+mod tests;
 use super::utils;
 use parser::*;
 
