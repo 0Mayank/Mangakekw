@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import Navigation from './components/Navbar.js'
 import React from 'react';
 import Background from './components/Background';
+import Schedule from './components/Schedule';
 
 class App extends React.Component {
 
@@ -11,6 +12,7 @@ class App extends React.Component {
       <div className="App">
         {/* <Background> */}
           <Navigation />
+          {/* <Schedule /> */}
         {/* </Background> */}
       </div>
     );

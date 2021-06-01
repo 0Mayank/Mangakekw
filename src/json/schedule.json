@@ -1,0 +1,44 @@
+{
+    "monday": [
+        { "title": "DBZ" },
+        { "title": "DBZ" },
+        { "title": "DBZ" },
+        { "title": "DBZ" }
+    ],
+    "tuesday": [
+        { "title": "Naruto" },
+        { "title": "Naruto" },
+        { "title": "Naruto" },
+        { "title": "Naruto" }
+    ],
+    "wednesday": [
+        { "title": "DBZ" },
+        { "title": "DBZ" },
+        { "title": "DBZ" },
+        { "title": "DBZ" }
+    ],
+    "thursday": [
+        { "title": "Naruto" },
+        { "title": "Naruto" },
+        { "title": "Naruto" },
+        { "title": "Naruto" }
+    ],
+    "friday": [
+        { "title": "DBZ" },
+        { "title": "DBZ" },
+        { "title": "DBZ" },
+        { "title": "DBZ" }
+    ],
+    "saturday": [
+        { "title": "Naruto" },
+        { "title": "Naruto" },
+        { "title": "Naruto" },
+        { "title": "Naruto" }
+    ],
+    "sunday": [
+        { "title": "DBZ" },
+        { "title": "DBZ" },
+        { "title": "DBZ" },
+        { "title": "DBZ" }
+    ]
+}
