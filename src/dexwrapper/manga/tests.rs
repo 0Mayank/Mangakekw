@@ -103,9 +103,20 @@ pub fn manga_rating() {
     let slime = test_responses.get(1).unwrap();
     let solo = test_responses.get(2).unwrap();
 
-    assert_eq!(opm.content_rating, "safe");
-    assert_eq!(slime.content_rating, "safe");
-    assert_eq!(solo.content_rating, "safe");
+    match opm.content_rating {
+        crate::dexwrapper::utils::ContentRating::Safe => {}
+        _ => panic!("Wrong ContentRating"),
+    }
+
+    match slime.content_rating {
+        crate::dexwrapper::utils::ContentRating::Safe => {}
+        _ => panic!("Wrong ContentRating"),
+    }
+
+    match solo.content_rating {
+        crate::dexwrapper::utils::ContentRating::Safe => {}
+        _ => panic!("Wrong ContentRating"),
+    }
 }
 
 #[test]

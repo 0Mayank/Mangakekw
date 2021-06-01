@@ -46,7 +46,7 @@ pub struct Manga {
     pub publication_demographic: Option<utils::Demographic>,
     pub status: utils::Status,
     pub year: Option<usize>,
-    pub content_rating: String,
+    pub content_rating: utils::ContentRating,
     pub created_at: DateTime<FixedOffset>,
     pub updated_at: DateTime<FixedOffset>,
     pub genres: Vec<Genre>,

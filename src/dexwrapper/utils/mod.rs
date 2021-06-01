@@ -20,6 +20,15 @@ pub enum TagGroup {
     Format,
 }
 
+#[derive(Deserialize, Serialize, Clone, Copy)]
+#[serde(rename_all(deserialize = "camelCase", serialize = "camelCase"))]
+pub enum ContentRating {
+    Safe,
+    Suggestive,
+    Erotica,
+    Pornographic,
+}
+
 #[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all(deserialize = "camelCase", serialize = "camelCase"))]
 pub enum Demographic {
