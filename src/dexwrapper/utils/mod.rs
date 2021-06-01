@@ -76,7 +76,7 @@ pub struct DexResponse<T> {
 #[serde(rename_all(deserialize = "camelCase"))]
 pub struct DexListResponse<T> {
     pub results: Vec<T>,
-    pub total: i32,
+    pub total: usize,
 }
 
 #[derive(Deserialize)]
