@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-pub fn get_data(uri: &str) -> Result<String, Box<dyn std::error::Error>> {
+pub fn get_data(uri: &str) -> Result<String, reqwest::Error> {
     let json_text = reqwest::blocking::get(uri)?.text()?;
 
     Ok(json_text)

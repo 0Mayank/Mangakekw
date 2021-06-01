@@ -1,39 +1,35 @@
 use super::utils::{get_data, parse_url};
 use std::collections::HashMap;
 
-use crate::dexwrapper::utils::DexWrappedObject;
-#[allow(unused_imports)]
-use crate::dexwrapper::{manga::Manga, manga_list::MangaList};
+use crate::dexwrapper::{manga::Manga, manga_list::MangaList, error::ErrorList, chapter_list::ChapterList, utils::DexWrappedObject};
 
-pub fn search_manga(query_params: HashMap<&str, &str>) -> MangaList {
+pub fn search_manga(query_params: HashMap<&str, &str>) -> Result<MangaList, ErrorList> {
     let uri = parse_url("https://api.mangadex.org/manga", query_params);
-    let manga_list = match get_data(&uri) {
-        Ok(s) => s,
-        Err(_) => panic!(),
-    };
-
-    let manga_list = match MangaList::from_string(&manga_list) {
-        Ok(m) => m,
-        Err(_) => panic!(),
-    };
-
-    manga_list
+    MangaList::from_string(
+        &get_data(&uri)
+        .expect(""))
 }
 
-pub fn get_manga(id: &str) -> () {
+pub fn get_manga(id: &str) ->  Result<Manga, ErrorList> {
     let uri = format!("https://api.mangadex.org/manga/{}", id);
-    let _manga = get_data(&uri);
+    Manga::from_string(
+        &get_data(&uri)
+        .expect(""))
 }
 
-pub fn get_manga_random() -> () {
+pub fn get_manga_random() -> Result<Manga, ErrorList> {
     let uri = "https://api.mangadex.org/manga/random";
-    let _manga = get_data(uri);
+    Manga::from_string(
+        &get_data(uri)
+        .expect(""))
 }
 
-pub fn feed_manga(id: &str, query_params: HashMap<&str, &str>) -> () {
+pub fn feed_manga(id: &str, query_params: HashMap<&str, &str>) -> Result<ChapterList, ErrorList> {
     let uri = parse_url(
         &format!("https://api.mangadex.org/manga/{}/feed", id),
-        query_params,
+        query_params
     );
-    let _chapters = get_data(&uri);
+    ChapterList::from_string(
+        &get_data(&uri)
+        .expect(""))
 }

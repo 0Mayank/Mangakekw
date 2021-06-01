@@ -7,7 +7,7 @@ use serde::Serialize;
 
 #[derive(Serialize)]
 #[serde(rename_all(serialize = "camelCase"))]
-struct CoverList {
+pub struct CoverList {
     data: Vec<cover::Cover>,
     count: usize,
 }

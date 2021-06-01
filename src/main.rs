@@ -2,9 +2,8 @@
 #[macro_use]
 extern crate rocket;
 
-mod dexwrapper;
-
 mod dexrequest;
+mod dexwrapper;
 
 #[get("/")]
 fn index() -> &'static str {
