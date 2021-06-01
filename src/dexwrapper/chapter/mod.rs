@@ -2,6 +2,7 @@ pub mod parser;
 mod tests;
 
 use super::utils;
+use chrono::{DateTime, FixedOffset};
 use parser::*;
 use serde::Serialize;
 
@@ -17,6 +18,9 @@ pub struct Chapter {
     data: Vec<String>,
     data_saver: Vec<String>,
     manga_id: String,
+    created_at: DateTime<FixedOffset>,
+    updated_at: DateTime<FixedOffset>,
+    published_at: DateTime<FixedOffset>,
 }
 
 impl Chapter {
@@ -38,6 +42,10 @@ impl Chapter {
             hash: response.data.attributes.hash,
             data: response.data.attributes.data,
             data_saver: response.data.attributes.data_saver,
+            created_at: DateTime::parse_from_rfc3339(&response.data.attributes.created_at).unwrap(),
+            updated_at: DateTime::parse_from_rfc3339(&response.data.attributes.updated_at).unwrap(),
+            published_at: DateTime::parse_from_rfc3339(&response.data.attributes.published_at)
+                .unwrap(),
             manga_id,
         }
     }

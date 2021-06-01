@@ -14,4 +14,9 @@ pub struct ChapterAtribs {
     pub hash: String,
     pub data: Vec<String>,
     pub data_saver: Vec<String>,
+    pub created_at: String,
+    pub updated_at: String,
+
+    #[serde(rename(deserialize = "publishAt"))]
+    pub published_at: String,
 }
