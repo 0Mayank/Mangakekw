@@ -1,9 +1,9 @@
 mod parser;
 
 use super::cover;
+use super::utils;
 use parser::*;
 use serde::Serialize;
-use serde_json;
 
 #[derive(Serialize)]
 #[serde(rename_all(serialize = "camelCase"))]
@@ -12,9 +12,10 @@ struct CoverList {
     count: usize,
 }
 
-impl CoverList {
+impl utils::DexWrappedObject for CoverList {
+    type Response = ChapterListResponse;
     #[allow(dead_code)]
-    pub fn from_response(response: ChapterListResponse) -> Self {
+    fn from_response(response: Self::Response) -> Self {
         CoverList {
             data: response
                 .results
@@ -23,20 +24,5 @@ impl CoverList {
                 .collect(),
             count: response.total as usize,
         }
-    }
-
-    #[allow(dead_code)]
-    pub fn serialize(&self, pretty: bool) -> String {
-        if pretty {
-            serde_json::to_string_pretty(self).unwrap()
-        } else {
-            serde_json::to_string(self).unwrap()
-        }
-    }
-
-    #[allow(dead_code)]
-    pub fn from_string(string: String) -> Result<Self, serde_json::Error> {
-        let response: ChapterListResponse = serde_json::from_str(&string)?;
-        Ok(Self::from_response(response))
     }
 }

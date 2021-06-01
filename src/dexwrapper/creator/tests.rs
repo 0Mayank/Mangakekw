@@ -1,3 +1,4 @@
+use super::utils::DexWrappedObject;
 use super::CreatorTemplate;
 use std::fs;
 
@@ -9,7 +10,7 @@ fn load_test_responses() -> Vec<CreatorTemplate> {
         fs::read_to_string("example_responses\\creator\\chugong.txt").unwrap(),
     ]
     .iter()
-    .map(|response_text| CreatorTemplate::from_string(response_text.to_string()).unwrap())
+    .map(|response_text| CreatorTemplate::from_string(response_text).unwrap())
     .collect()
 }
 #[test]

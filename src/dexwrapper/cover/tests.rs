@@ -1,6 +1,7 @@
 #[allow(unused_imports)]
 use chrono::{Datelike, Timelike};
 
+use super::utils::DexWrappedObject;
 use super::Cover;
 use std::fs;
 
@@ -8,7 +9,7 @@ use std::fs;
 fn load_test_responses() -> Cover {
     let s = fs::read_to_string("example_responses\\cover\\1.txt").unwrap();
 
-    Cover::from_string(s).unwrap()
+    Cover::from_string(&s).unwrap()
 }
 #[test]
 pub fn cover_id() {

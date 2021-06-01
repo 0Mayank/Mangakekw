@@ -23,9 +23,11 @@ pub struct Chapter {
     published_at: DateTime<FixedOffset>,
 }
 
-impl Chapter {
+impl utils::DexWrappedObject for Chapter {
+    type Response = ChapterResponse;
+
     #[allow(dead_code)]
-    pub fn from_response(response: ChapterResponse) -> Self {
+    fn from_response(response: Self::Response) -> Self {
         let mut manga_id = String::new();
         for relation in response.relationships {
             match relation.r#type {
@@ -48,19 +50,5 @@ impl Chapter {
                 .unwrap(),
             manga_id,
         }
-    }
-
-    #[allow(dead_code)]
-    pub fn serialize(&self, pretty: bool) -> String {
-        if pretty {
-            serde_json::to_string_pretty(self).unwrap()
-        } else {
-            serde_json::to_string(self).unwrap()
-        }
-    }
-
-    pub fn from_string(string: String) -> Result<Self, serde_json::Error> {
-        let response: ChapterResponse = serde_json::from_str(&string)?;
-        Ok(Self::from_response(response))
     }
 }

@@ -77,3 +77,30 @@ pub struct DexRaw<T> {
     pub id: String,
     pub attributes: T,
 }
+
+pub trait DexWrappedObject {
+    type Response;
+
+    fn from_response(response: Self::Response) -> Self;
+
+    fn serialize(&self, pretty: bool) -> String
+    where
+        Self: Sized + serde::Serialize,
+    {
+        if pretty {
+            serde_json::to_string_pretty(self).unwrap()
+        } else {
+            serde_json::to_string(self).unwrap()
+        }
+    }
+
+    #[allow(dead_code)]
+    fn from_string<'a>(string: &'a str) -> Result<Self, serde_json::Error>
+    where
+        Self: Sized,
+        Self::Response: serde::Deserialize<'a>,
+    {
+        let response: Self::Response = serde_json::from_str(string)?;
+        Ok(Self::from_response(response))
+    }
+}
