@@ -1,11 +1,14 @@
 [
     {
-        "cover": "pepe.png"
+        "cover": "cover.png"
     },
     {
         "cover": "angry.png"
     },
     {
         "cover": "logo512.png"
+    },
+    {
+        "cover": "pepe.png"
     }
 ]

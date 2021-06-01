@@ -6,3 +6,4 @@ export const Background = (props) => (
         {props.children}
     </Container>
 )
+export default Background;

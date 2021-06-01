@@ -1,7 +1,5 @@
 import React from 'react';
 import { Carousel } from 'react-bootstrap';
-import { Container } from 'react-bootstrap';
-import styled from 'styled-components';
 
 class Carouselcard extends React.Component {
     render() {
