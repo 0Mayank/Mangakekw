@@ -1,6 +1,7 @@
 #[allow(unused_imports)]
 use crate::dexwrapper::utils::Demographic;
 
+use super::utils::DexWrappedObject;
 use super::Manga;
 #[allow(unused_imports)]
 use std::borrow::Borrow;
@@ -14,7 +15,7 @@ fn load_test_responses() -> Vec<Manga> {
         fs::read_to_string("example_responses\\manga\\solo.txt").unwrap(),
     ]
     .iter()
-    .map(|response_text| Manga::from_string(response_text.to_string()).unwrap())
+    .map(|response_text| Manga::from_string(response_text).unwrap())
     .collect()
 }
 #[test]

@@ -15,9 +15,10 @@ pub struct CreatorTemplate {
     works_id: Vec<String>,
 }
 
-impl CreatorTemplate {
+impl utils::DexWrappedObject for CreatorTemplate {
+    type Response = CreatorResponse;
     #[allow(dead_code)]
-    pub fn from_response(response: CreatorResponse) -> Self {
+    fn from_response(response: Self::Response) -> Self {
         let mut works = Vec::new();
         for relation in response.relationships {
             match relation.r#type {
@@ -34,22 +35,8 @@ impl CreatorTemplate {
             works_id: works,
         }
     }
-
-    #[allow(dead_code)]
-    pub fn serialize(&self, pretty: bool) -> String {
-        if pretty {
-            serde_json::to_string_pretty(self).unwrap()
-        } else {
-            serde_json::to_string(self).unwrap()
-        }
-    }
-
-    #[allow(dead_code)]
-    pub fn from_string(string: String) -> Result<Self, serde_json::Error> {
-        let response: CreatorResponse = serde_json::from_str(&string)?;
-        Ok(Self::from_response(response))
-    }
 }
+
 #[derive(Serialize)]
 #[allow(dead_code)]
 #[serde(rename_all(deserialize = "camelCase", serialize = "camelCase"))]

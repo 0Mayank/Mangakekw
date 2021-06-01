@@ -2,6 +2,7 @@ mod parser;
 mod tests;
 
 use super::manga;
+use super::utils;
 use parser::*;
 use serde::Serialize;
 
@@ -12,9 +13,10 @@ pub struct MangaList {
     count: usize,
 }
 
-impl MangaList {
+impl utils::DexWrappedObject for MangaList {
+    type Response = MangaListResponse;
     #[allow(dead_code)]
-    pub fn from_response(response: MangaListResponse) -> Self {
+    fn from_response(response: Self::Response) -> Self {
         MangaList {
             data: response
                 .results
@@ -23,20 +25,5 @@ impl MangaList {
                 .collect(),
             count: response.total as usize,
         }
-    }
-
-    #[allow(dead_code)]
-    pub fn serialize(&self, pretty: bool) -> String {
-        if pretty {
-            serde_json::to_string_pretty(self).unwrap()
-        } else {
-            serde_json::to_string(self).unwrap()
-        }
-    }
-
-    #[allow(dead_code)]
-    pub fn from_string(string: String) -> Result<Self, serde_json::Error> {
-        let response: MangaListResponse = serde_json::from_str(&string)?;
-        Ok(Self::from_response(response))
     }
 }

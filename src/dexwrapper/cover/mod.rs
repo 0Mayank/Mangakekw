@@ -5,7 +5,6 @@ use super::utils;
 use chrono::{DateTime, FixedOffset};
 use parser::*;
 use serde::Serialize;
-use serde_json;
 
 #[derive(Serialize)]
 #[serde(rename_all(serialize = "camelCase"))]
@@ -19,8 +18,9 @@ pub struct Cover {
     manga_id: String,
 }
 
-impl Cover {
-    pub fn from_response(response: CoverResponse) -> Self {
+impl utils::DexWrappedObject for Cover {
+    type Response = CoverResponse;
+    fn from_response(response: Self::Response) -> Self {
         let mut manga_id = String::new();
 
         for relation in response.relationships {
@@ -39,19 +39,5 @@ impl Cover {
             updated_at: DateTime::parse_from_rfc3339(&response.data.attributes.updated_at).unwrap(),
             manga_id,
         }
-    }
-
-    #[allow(dead_code)]
-    pub fn serialize(&self, pretty: bool) -> String {
-        if pretty {
-            serde_json::to_string_pretty(self).unwrap()
-        } else {
-            serde_json::to_string(self).unwrap()
-        }
-    }
-
-    pub fn from_string(string: String) -> Result<Self, serde_json::Error> {
-        let response: CoverResponse = serde_json::from_str(&string)?;
-        Ok(Self::from_response(response))
     }
 }

@@ -5,8 +5,6 @@ use super::utils;
 use chrono::{DateTime, FixedOffset};
 use parser::*;
 use serde::Serialize;
-use serde_json;
-
 #[derive(Serialize)]
 #[serde(rename_all(serialize = "camelCase"))]
 pub struct Genre {
@@ -61,8 +59,9 @@ pub struct Manga {
 }
 
 #[allow(dead_code)]
-impl Manga {
-    pub fn from_response(response: MangaResponse) -> Self {
+impl utils::DexWrappedObject for Manga {
+    type Response = MangaResponse;
+    fn from_response(response: Self::Response) -> Self {
         let raw = response.data;
         let relations = response.relationships;
 
@@ -126,19 +125,5 @@ impl Manga {
             artist_id,
             cover_id,
         }
-    }
-
-    pub fn serialize(&self, pretty: bool) -> String {
-        if pretty {
-            serde_json::to_string_pretty(self).unwrap()
-        } else {
-            serde_json::to_string(self).unwrap()
-        }
-    }
-
-    #[allow(dead_code)]
-    pub fn from_string(string: String) -> Result<Self, serde_json::Error> {
-        let response: MangaResponse = serde_json::from_str(&string)?;
-        Ok(Self::from_response(response))
     }
 }
