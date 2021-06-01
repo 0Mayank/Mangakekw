@@ -2,7 +2,7 @@ pub mod parser;
 use super::utils;
 use parser::*;
 
-type Error = ErrorAtribs;
+pub type Error = ErrorAtribs;
 
 impl utils::DexWrappedObject for Error {
     type Response = ErrorAtribs;
@@ -11,7 +11,7 @@ impl utils::DexWrappedObject for Error {
     }
 }
 
-type ErrorList = utils::DexListResponse<Error>;
+pub type ErrorList = utils::DexListResponse<Error>;
 
 impl utils::DexWrappedObject for ErrorList {
     type Response = ErrorListResponse;

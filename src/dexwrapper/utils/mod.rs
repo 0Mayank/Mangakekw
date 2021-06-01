@@ -1,3 +1,4 @@
+use super::error;
 use serde::{Deserialize, Serialize};
 #[derive(Deserialize)]
 #[serde(rename_all(deserialize = "snake_case", serialize = "snake_case"))]
@@ -71,7 +72,7 @@ pub struct DexResponse<T> {
     pub relationships: Vec<Relationship>,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Debug)]
 #[allow(dead_code)]
 #[serde(rename_all(deserialize = "camelCase"))]
 pub struct DexListResponse<T> {
@@ -103,12 +104,26 @@ pub trait DexWrappedObject {
         }
     }
 
-    fn from_string<'a>(string: &'a str) -> Result<Self, serde_json::Error>
+    /// s
+    ///sd
+    ///
+    fn from_string<'a>(string: &'a str) -> Result<Self, error::ErrorList>
     where
         Self: Sized,
         Self::Response: serde::Deserialize<'a>,
     {
-        let response: Self::Response = serde_json::from_str(string)?;
-        Ok(Self::from_response(response))
+        let response: Result<Self::Response, serde_json::Error> = serde_json::from_str(string);
+
+        match response {
+            Ok(r) => Ok(Self::from_response(r)),
+            Err(e) => {
+                let error_response: Result<error::parser::ErrorListResponse, serde_json::Error> =
+                    serde_json::from_str(string);
+                match error_response {
+                    Ok(r) => Err(error::ErrorList::from_response(r)),
+                    Err(_) => panic!("I have no idea what tf kinda JSON u gave me."),
+                }
+            }
+        }
     }
 }
