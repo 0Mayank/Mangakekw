@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
+use std::fmt::Debug;
 
-#[derive(Deserialize, Serialize)]
+#[derive(Deserialize, Serialize, Debug)]
 #[serde(rename_all(deserialize = "camelCase"))]
 pub struct ErrorAtribs {
     pub id: String,
@@ -9,7 +10,7 @@ pub struct ErrorAtribs {
     pub detail: String,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Debug)]
 #[serde(rename_all(deserialize = "camelCase"))]
 pub struct ErrorListResponse {
     pub result: String,
