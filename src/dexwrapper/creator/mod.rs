@@ -8,11 +8,11 @@ use serde::Serialize;
 #[derive(Serialize)]
 #[serde(rename_all(serialize = "camelCase"))]
 pub struct CreatorTemplate {
-    id: String,
-    name: String,
-    image_url: Option<String>,
-    biography: String,
-    works_id: Vec<String>,
+    pub id: String,
+    pub name: String,
+    pub image_url: Option<String>,
+    pub biography: String,
+    pub works_id: Vec<String>,
 }
 
 impl utils::DexWrappedObject for CreatorTemplate {

@@ -8,8 +8,8 @@ use serde::Serialize;
 #[derive(Serialize)]
 #[serde(rename_all(serialize = "camelCase"))]
 pub struct ChapterList {
-    data: Vec<chapter::Chapter>,
-    count: usize,
+    pub data: Vec<chapter::Chapter>,
+    pub count: usize,
 }
 
 impl utils::DexWrappedObject for ChapterList {

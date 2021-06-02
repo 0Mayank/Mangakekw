@@ -9,18 +9,18 @@ use serde::Serialize;
 #[derive(Serialize)]
 #[serde(rename_all(serialize = "camelCase"))]
 pub struct Chapter {
-    id: String,
-    title: String,
-    volume: Option<String>,
-    chapter: Option<String>,
-    translated_language: String,
-    hash: String,
-    data: Vec<String>,
-    data_saver: Vec<String>,
-    manga_id: String,
-    created_at: DateTime<FixedOffset>,
-    updated_at: DateTime<FixedOffset>,
-    published_at: DateTime<FixedOffset>,
+    pub id: String,
+    pub title: String,
+    pub volume: Option<String>,
+    pub chapter: Option<String>,
+    pub translated_language: String,
+    pub hash: String,
+    pub data: Vec<String>,
+    pub data_saver: Vec<String>,
+    pub manga_id: String,
+    pub created_at: DateTime<FixedOffset>,
+    pub updated_at: DateTime<FixedOffset>,
+    pub published_at: DateTime<FixedOffset>,
 }
 
 impl utils::DexWrappedObject for Chapter {

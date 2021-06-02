@@ -8,8 +8,8 @@ use serde::Serialize;
 #[derive(Serialize)]
 #[serde(rename_all(serialize = "camelCase"))]
 pub struct CreatorList {
-    data: Vec<creator::CreatorTemplate>,
-    count: usize,
+    pub data: Vec<creator::CreatorTemplate>,
+    pub count: usize,
 }
 
 impl utils::DexWrappedObject for CreatorList {

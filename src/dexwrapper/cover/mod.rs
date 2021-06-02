@@ -9,13 +9,13 @@ use serde::Serialize;
 #[derive(Serialize)]
 #[serde(rename_all(serialize = "camelCase"))]
 pub struct Cover {
-    id: String,
-    volume: Option<String>,
-    file_name: String,
-    description: Option<String>,
-    created_at: DateTime<FixedOffset>,
-    updated_at: DateTime<FixedOffset>,
-    manga_id: String,
+    pub id: String,
+    pub volume: Option<String>,
+    pub file_name: String,
+    pub description: Option<String>,
+    pub created_at: DateTime<FixedOffset>,
+    pub updated_at: DateTime<FixedOffset>,
+    pub manga_id: String,
 }
 
 impl utils::DexWrappedObject for Cover {

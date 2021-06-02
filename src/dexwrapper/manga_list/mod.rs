@@ -9,8 +9,8 @@ use serde::Serialize;
 #[derive(Serialize)]
 #[serde(rename_all(serialize = "camelCase"))]
 pub struct MangaList {
-    data: Vec<manga::Manga>,
-    count: usize,
+    pub data: Vec<manga::Manga>,
+    pub count: usize,
 }
 
 impl utils::DexWrappedObject for MangaList {
