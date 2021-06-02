@@ -88,6 +88,12 @@ pub struct DexRaw<T> {
     pub attributes: T,
 }
 
+#[derive(Debug)]
+pub enum DexError {
+    InvalidRequest(error::ErrorList),
+    InvalidJSON,
+}
+
 pub trait DexWrappedObject {
     type Response;
 
@@ -107,7 +113,7 @@ pub trait DexWrappedObject {
     /// s
     ///sd
     ///
-    fn from_string<'a>(string: &'a str) -> Result<Self, error::ErrorList>
+    fn from_string<'a>(string: &'a str) -> Result<Self, DexError>
     where
         Self: Sized,
         Self::Response: serde::Deserialize<'a>,
@@ -120,8 +126,8 @@ pub trait DexWrappedObject {
                 let error_response: Result<error::parser::ErrorListResponse, serde_json::Error> =
                     serde_json::from_str(string);
                 match error_response {
-                    Ok(r) => Err(error::ErrorList::from_response(r)),
-                    Err(_) => panic!("I have no idea what tf kinda JSON u gave me."),
+                    Ok(r) => Err(DexError::InvalidRequest(error::ErrorList::from_response(r))),
+                    Err(_) => Err(DexError::InvalidJSON),
                 }
             }
         }
