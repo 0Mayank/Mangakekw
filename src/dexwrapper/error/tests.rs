@@ -1,14 +1,14 @@
 #[allow(unused_imports)]
 use super::super::manga::Manga;
+#[allow(unused_imports)]
 use super::utils::DexError;
 #[allow(unused_imports)]
 use super::utils::DexWrappedObject;
 #[allow(unused_imports)]
 use std::fs;
-#[allow(unused_imports)]
+
 #[test]
 #[allow(unused_must_use)]
-#[should_panic]
 pub fn invalid_json() {
     if let Err(e) = Manga::from_string("{}") {
         match e {
