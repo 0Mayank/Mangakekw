@@ -18,3 +18,4 @@ pub fn get(id: &str) -> Result<Chapter, DexError> {
 }
 
 pub fn get_pages() -> () {}
+
