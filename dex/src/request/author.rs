@@ -17,8 +17,8 @@ use std::collections::HashMap;
 /// 
 /// ```
 /// use std::collections::HashMap;
-/// use dex::dexwrapper::utils::DexWrappedObject;
-/// use dex::dexrequest::author;
+/// use dex::wrapper::utils::DexWrappedObject;
+/// use dex::request::author;
 ///
 /// let mut query_params = HashMap::new();
 ///
