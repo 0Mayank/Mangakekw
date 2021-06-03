@@ -60,8 +60,8 @@ pub struct Manga {
 
 #[allow(dead_code)]
 impl utils::DexWrappedObject for Manga {
-    type Response = MangaResponse;
-    fn from_response(response: Self::Response) -> Self {
+    type Parser = MangaResponse;
+    fn from_response(response: Self::Parser) -> Self {
         let raw = response.data;
         let relations = response.relationships;
 

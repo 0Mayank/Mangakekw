@@ -13,9 +13,9 @@ pub struct CreatorList {
 }
 
 impl utils::DexWrappedObject for CreatorList {
-    type Response = CreatorListResponse;
-    #[allow(dead_code)]
-    fn from_response(response: Self::Response) -> Self {
+    type Parser = CreatorListResponse;
+
+    fn from_response(response: Self::Parser) -> Self {
         CreatorList {
             data: response
                 .results

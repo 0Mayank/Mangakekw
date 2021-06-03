@@ -24,10 +24,10 @@ pub struct Chapter {
 }
 
 impl utils::DexWrappedObject for Chapter {
-    type Response = ChapterResponse;
+    type Parser = ChapterResponse;
 
     #[allow(dead_code)]
-    fn from_response(response: Self::Response) -> Self {
+    fn from_response(response: Self::Parser) -> Self {
         let mut manga_id = String::new();
         for relation in response.relationships {
             match relation.r#type {

@@ -95,13 +95,15 @@ pub enum DexError {
 }
 
 pub trait DexWrappedObject {
-    type Response;
+    type Parser;
 
-    fn from_response(response: Self::Response) -> Self;
+    fn from_response(response: Self::Parser) -> Self
+    where
+        Self: Sized;
 
     fn serialize(&self, pretty: bool) -> String
     where
-        Self: Sized + serde::Serialize,
+        Self: serde::Serialize,
     {
         if pretty {
             serde_json::to_string_pretty(self).unwrap()
@@ -116,9 +118,9 @@ pub trait DexWrappedObject {
     fn from_string<'a>(string: &'a str) -> Result<Self, DexError>
     where
         Self: Sized,
-        Self::Response: serde::Deserialize<'a>,
+        Self::Parser: serde::Deserialize<'a>,
     {
-        let response: Result<Self::Response, serde_json::Error> = serde_json::from_str(string);
+        let response: Result<Self::Parser, serde_json::Error> = serde_json::from_str(string);
 
         match response {
             Ok(r) => Ok(Self::from_response(r)),
