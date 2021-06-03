@@ -1,5 +1,4 @@
 mod parser;
-mod tests;
 
 use super::manga;
 use super::utils;

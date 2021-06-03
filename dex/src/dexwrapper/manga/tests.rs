@@ -1,5 +1,5 @@
 #[allow(unused_imports)]
-use crate::dexwrapper::utils::Demographic;
+use super::super::utils::Demographic;
 
 use super::utils::DexWrappedObject;
 use super::Manga;
