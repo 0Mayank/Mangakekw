@@ -54,6 +54,10 @@ pub fn search(query_params: HashMap<&str, &str>) -> Result<CreatorList, DexError
 
 /// Returns CreatorTemplate.
 /// query: "https://api.mangadex.org/author/{id}".
+///
+/// # Arguments
+///
+/// * `id` - Id of author
 pub fn get(id: &str) -> Result<CreatorTemplate, DexError> {
     let uri = format!("https://api.mangadex.org/author/{}", id);
     CreatorTemplate::from_string(
