@@ -18,7 +18,7 @@ use std::collections::HashMap;
 /// 
 /// ```
 /// use std::collections::HashMap;
-/// use mangakekw::dexwrapper::utils::DexWrappedObject;
+/// use dex::dexwrapper::utils::DexWrappedObject;
 /// 
 /// fn main() {
 /// let mut query_params = HashMap::new();
@@ -26,7 +26,7 @@ use std::collections::HashMap;
 /// query_params.insert("limit", "2");
 /// query_params.insert("offset", "3");
 ///
-/// let authors = mangakekw::dexrequest::author::search(query_params).unwrap();
+/// let authors = dex::dexrequest::author::search(query_params).unwrap();
 /// 
 /// println!("{}",authors.serialize(true));
 /// }
