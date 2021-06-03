@@ -94,12 +94,13 @@ pub enum DexError {
     InvalidJSON,
 }
 
-pub trait DexWrappedObject {
+pub trait DexWrappedObject
+where
+    Self: Sized,
+{
     type Parser;
 
-    fn from_response(response: Self::Parser) -> Self
-    where
-        Self: Sized;
+    fn from_response(response: Self::Parser) -> Self;
 
     fn serialize(&self, pretty: bool) -> String
     where
@@ -112,12 +113,11 @@ pub trait DexWrappedObject {
         }
     }
 
-    /// s
+    ///
     ///sd
     ///
     fn from_string<'a>(string: &'a str) -> Result<Self, DexError>
     where
-        Self: Sized,
         Self::Parser: serde::Deserialize<'a>,
     {
         let response: Result<Self::Parser, serde_json::Error> = serde_json::from_str(string);
