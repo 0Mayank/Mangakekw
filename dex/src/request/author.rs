@@ -3,10 +3,10 @@ use crate::wrapper::{creator::CreatorTemplate, creator_list::CreatorList,utils::
 use std::collections::HashMap;
 
 /// Searh authors by passing query parameters as query params. Query: "https://api.mangadex.org/author".
-///s
+///
 /// # Arguments
 ///
-/// * `query_params` - A HashMap holding query parameters. The paramaeters are as follows:
+/// * `query_params` - A HashMap<&str, &str> holding query parameters. The paramaeters are as follows:
 ///     * `limit` - integer {1..100}. default value = 10.
 ///     * `offset` - integer >= 0.
 ///     * `ids` - Array of strings. Search by ids of the authors
@@ -39,9 +39,9 @@ use std::collections::HashMap;
 /// * response cannot be parsed to string
 /// 
 /// # Errors
-/// returns enum enum DexError
+/// returns enum DexError
 ///
-/// * Api returns error response json
+/// * api returns error json response
 /// * serde parsing error
 pub fn search(query_params: HashMap<&str, &str>) -> Result<CreatorList, DexError> {
     let uri = parse_url("https://api.mangadex.org/author", query_params);
@@ -55,6 +55,30 @@ pub fn search(query_params: HashMap<&str, &str>) -> Result<CreatorList, DexError
 /// # Arguments
 ///
 /// * `id` - Id of author
+///
+/// # Example
+///
+/// ```
+/// use dex::wrapper::utils::DexWrappedObject;
+/// use dex::request::author;
+///
+/// let author = author::get("15fe4d54-ae08-4177-af94-868bb7db1bcf").unwrap();
+/// println!("{}",author.serialize(true));
+/// ```
+///
+/// # Panics
+/// * native TLS backend cannot be initialized
+/// * supplied Url cannot be parsed
+/// * there was an error while sending request
+/// * redirect loop was detected
+/// * redirect limit was exhausted
+/// * response cannot be parsed to string
+/// 
+/// # Errors
+/// returns enum DexError
+///
+/// * api returns error json response
+/// * serde parsing error
 pub fn get(id: &str) -> Result<CreatorTemplate, DexError> {
     let uri = format!("https://api.mangadex.org/author/{}", id);
     CreatorTemplate::from_string(
