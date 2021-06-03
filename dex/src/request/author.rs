@@ -1,9 +1,9 @@
 use super::utils::{get_data, parse_url};
-use crate::dexwrapper::{creator::CreatorTemplate, creator_list::CreatorList,utils::{DexWrappedObject, DexError}};
+use crate::wrapper::{creator::CreatorTemplate, creator_list::CreatorList,utils::{DexWrappedObject, DexError}};
 use std::collections::HashMap;
 
 /// Searh authors by passing query parameters as query params. Query: "https://api.mangadex.org/author".
-///
+///s
 /// # Arguments
 ///
 /// * `query_params` - A HashMap holding query parameters. The paramaeters are as follows:

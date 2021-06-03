@@ -1,2 +1,2 @@
-pub mod dexrequest;
-pub mod dexwrapper;
+pub mod request;
+pub mod wrapper;

@@ -1,7 +1,7 @@
 use super::utils::{get_data, parse_url};
 use std::collections::HashMap;
 
-use crate::dexwrapper::{manga::Manga, manga_list::MangaList, chapter_list::ChapterList, utils::{DexWrappedObject, DexError}};
+use crate::wrapper::{manga::Manga, manga_list::MangaList, chapter_list::ChapterList, utils::{DexWrappedObject, DexError}};
 
 pub fn search(query_params: HashMap<&str, &str>) -> Result<MangaList, DexError> {
     let uri = parse_url("https://api.mangadex.org/manga", query_params);
