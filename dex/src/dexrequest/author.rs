@@ -2,8 +2,7 @@ use super::utils::{get_data, parse_url};
 use crate::dexwrapper::{creator::CreatorTemplate, creator_list::CreatorList,utils::{DexWrappedObject, DexError}};
 use std::collections::HashMap;
 
-/// Searh authors by passing query parameters as query params.
-/// query: "https://api.mangadex.org/author".
+/// Searh authors by passing query parameters as query params. Query: "https://api.mangadex.org/author".
 ///
 /// # Arguments
 ///
@@ -19,17 +18,16 @@ use std::collections::HashMap;
 /// ```
 /// use std::collections::HashMap;
 /// use dex::dexwrapper::utils::DexWrappedObject;
-/// 
-/// fn main() {
+/// use dex::dexrequest::author;
+///
 /// let mut query_params = HashMap::new();
 ///
 /// query_params.insert("limit", "2");
 /// query_params.insert("offset", "3");
 ///
-/// let authors = dex::dexrequest::author::search(query_params).unwrap();
+/// let authors = author::search(query_params).unwrap();
 /// 
 /// println!("{}",authors.serialize(true));
-/// }
 /// ```
 ///
 /// # Panics
@@ -52,8 +50,7 @@ pub fn search(query_params: HashMap<&str, &str>) -> Result<CreatorList, DexError
         .unwrap())
 }
 
-/// Returns CreatorTemplate.
-/// query: "https://api.mangadex.org/author/{id}".
+/// Get author from author's id. Query: "https://api.mangadex.org/author/{id}".
 ///
 /// # Arguments
 ///
