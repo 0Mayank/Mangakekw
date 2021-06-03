@@ -1,5 +1,4 @@
 mod parser;
-mod tests;
 
 use super::manga;
 use super::utils;
@@ -14,9 +13,9 @@ pub struct MangaList {
 }
 
 impl utils::DexWrappedObject for MangaList {
-    type Response = MangaListResponse;
-    #[allow(dead_code)]
-    fn from_response(response: Self::Response) -> Self {
+    type Parser = MangaListResponse;
+
+    fn from_response(response: Self::Parser) -> Self {
         MangaList {
             data: response
                 .results

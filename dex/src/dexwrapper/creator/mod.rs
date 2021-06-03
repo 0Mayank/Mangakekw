@@ -16,9 +16,9 @@ pub struct CreatorTemplate {
 }
 
 impl utils::DexWrappedObject for CreatorTemplate {
-    type Response = CreatorResponse;
-    #[allow(dead_code)]
-    fn from_response(response: Self::Response) -> Self {
+    type Parser = CreatorResponse;
+
+    fn from_response(response: Self::Parser) -> Self {
         let mut works = Vec::new();
         for relation in response.relationships {
             match relation.r#type {

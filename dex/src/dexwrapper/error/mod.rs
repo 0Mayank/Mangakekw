@@ -6,8 +6,8 @@ use parser::*;
 pub type Error = ErrorAtribs;
 
 impl utils::DexWrappedObject for Error {
-    type Response = ErrorAtribs;
-    fn from_response(response: Self::Response) -> Self {
+    type Parser = ErrorAtribs;
+    fn from_response(response: Self::Parser) -> Self {
         response
     }
 }
@@ -15,9 +15,9 @@ impl utils::DexWrappedObject for Error {
 pub type ErrorList = utils::DexListResponse<Error>;
 
 impl utils::DexWrappedObject for ErrorList {
-    type Response = ErrorListResponse;
+    type Parser = ErrorListResponse;
     #[allow(dead_code)]
-    fn from_response(response: Self::Response) -> Self {
+    fn from_response(response: Self::Parser) -> Self {
         ErrorList {
             total: response.errors.len(),
             results: response.errors,

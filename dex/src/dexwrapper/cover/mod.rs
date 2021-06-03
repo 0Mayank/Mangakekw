@@ -19,8 +19,8 @@ pub struct Cover {
 }
 
 impl utils::DexWrappedObject for Cover {
-    type Response = CoverResponse;
-    fn from_response(response: Self::Response) -> Self {
+    type Parser = CoverResponse;
+    fn from_response(response: Self::Parser) -> Self {
         let mut manga_id = String::new();
 
         for relation in response.relationships {

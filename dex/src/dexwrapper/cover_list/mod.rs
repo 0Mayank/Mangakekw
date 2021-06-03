@@ -13,9 +13,9 @@ pub struct CoverList {
 }
 
 impl utils::DexWrappedObject for CoverList {
-    type Response = ChapterListResponse;
-    #[allow(dead_code)]
-    fn from_response(response: Self::Response) -> Self {
+    type Parser = ChapterListResponse;
+
+    fn from_response(response: Self::Parser) -> Self {
         CoverList {
             data: response
                 .results
