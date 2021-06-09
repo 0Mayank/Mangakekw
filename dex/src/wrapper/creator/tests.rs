@@ -1,13 +1,16 @@
 use super::utils::DexWrappedObject;
 use super::CreatorTemplate;
 use std::fs;
+use std::path::Path;
 
 #[allow(dead_code)]
 fn load_test_responses() -> Vec<CreatorTemplate> {
+    let path_to_test_respones = Path::new(".").join("example_responses").join("creator");
+    eprintln!("{}", path_to_test_respones.to_str().unwrap());
     [
-        fs::read_to_string("example_responses\\creator\\murata.txt").unwrap(),
-        fs::read_to_string("example_responses\\creator\\fuse.txt").unwrap(),
-        fs::read_to_string("example_responses\\creator\\chugong.txt").unwrap(),
+        fs::read_to_string(path_to_test_respones.join("murata.txt").to_str().unwrap()).unwrap(),
+        fs::read_to_string(path_to_test_respones.join("fuse.txt").to_str().unwrap()).unwrap(),
+        fs::read_to_string(path_to_test_respones.join("chugong.txt").to_str().unwrap()).unwrap(),
     ]
     .iter()
     .map(|response_text| CreatorTemplate::from_string(response_text).unwrap())

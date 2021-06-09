@@ -6,13 +6,21 @@ use super::Manga;
 #[allow(unused_imports)]
 use std::borrow::Borrow;
 use std::fs;
+use std::path::Path;
 
 #[allow(dead_code)]
 fn load_test_responses() -> Vec<Manga> {
+    let path_to_example_responses = Path::new(".").join("example_responses").join("manga");
     [
-        fs::read_to_string("example_responses\\manga\\opm.txt").unwrap(),
-        fs::read_to_string("example_responses\\manga\\slime.txt").unwrap(),
-        fs::read_to_string("example_responses\\manga\\solo.txt").unwrap(),
+        fs::read_to_string(path_to_example_responses.join("opm.txt").to_str().unwrap()).unwrap(),
+        fs::read_to_string(
+            path_to_example_responses
+                .join("slime.txt")
+                .to_str()
+                .unwrap(),
+        )
+        .unwrap(),
+        fs::read_to_string(path_to_example_responses.join("solo.txt").to_str().unwrap()).unwrap(),
     ]
     .iter()
     .map(|response_text| Manga::from_string(response_text).unwrap())
