@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
-pub fn get_data(uri: &str) -> Result<String, reqwest::Error> {
-    let json_text = reqwest::blocking::get(uri)?.text()?;
+pub async fn get_data(uri: &str) -> Result<String, reqwest::Error> {
+    let json_text = reqwest::get(uri).await?.text().await?;
 
     Ok(json_text)
 }

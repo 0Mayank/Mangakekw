@@ -73,11 +73,12 @@ use crate::wrapper::{manga::Manga, manga_list::MangaList, chapter_list::ChapterL
 ///
 /// * api returns error json response
 /// * serde parsing error
-pub fn search(query_params: HashMap<&str, &str>) -> Result<MangaList, DexError> {
+pub async fn search(query_params: HashMap<&str, &str>) -> Result<MangaList, DexError> {
     let uri = parse_url("https://api.mangadex.org/manga", query_params);
     MangaList::from_string(
         &get_data(&uri)
-        .expect(""))
+        .await
+        .unwrap())
 }
 
 /// Get manga from manga's id. Query: "https://api.mangadex.org/manga/{id}".
@@ -109,11 +110,12 @@ pub fn search(query_params: HashMap<&str, &str>) -> Result<MangaList, DexError> 
 ///
 /// * api returns error json response
 /// * serde parsing error
-pub fn get(id: &str) ->  Result<Manga, DexError> {
+pub async fn get(id: &str) ->  Result<Manga, DexError> {
     let uri = format!("https://api.mangadex.org/manga/{}", id);
     Manga::from_string(
         &get_data(&uri)
-        .expect(""))
+        .await
+        .unwrap())
 }
 
 /// Get chapter from chapter's id. Query: "https://api.mangadex.org/manga/random".
@@ -141,11 +143,12 @@ pub fn get(id: &str) ->  Result<Manga, DexError> {
 ///
 /// * api returns error json response
 /// * serde parsing error
-pub fn random() -> Result<Manga, DexError> {
+pub async fn random() -> Result<Manga, DexError> {
     let uri = "https://api.mangadex.org/manga/random";
     Manga::from_string(
         &get_data(uri)
-        .expect(""))
+        .await
+        .unwrap())
 }
 
 /// Feed manga chapters by passing manga id and query parameters as query params. Query: "https://api.mangadex.org/manga".
@@ -192,12 +195,13 @@ pub fn random() -> Result<Manga, DexError> {
 ///
 /// * api returns error json response
 /// * serde parsing error
-pub fn feed(id: &str, query_params: HashMap<&str, &str>) -> Result<ChapterList, DexError> {
+pub async fn feed(id: &str, query_params: HashMap<&str, &str>) -> Result<ChapterList, DexError> {
     let uri = parse_url(
         &format!("https://api.mangadex.org/manga/{}/feed", id),
         query_params
     );
     ChapterList::from_string(
         &get_data(&uri)
-        .expect(""))
+        .await
+        .unwrap())
 }

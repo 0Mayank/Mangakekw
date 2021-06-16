@@ -45,10 +45,11 @@ use crate::wrapper::{cover_list::CoverList, cover::Cover, utils::{DexWrappedObje
 ///
 /// * api returns error json response
 /// * serde parsing error
-pub fn search(query_params: HashMap<&str, &str>) -> Result<CoverList, DexError> {
+pub async fn search(query_params: HashMap<&str, &str>) -> Result<CoverList, DexError> {
     let uri = parse_url("https://api.mangadex.org/cover", query_params);
     CoverList::from_string(
         &get_data(&uri)
+        .await
         .unwrap())
 }
 
@@ -81,10 +82,11 @@ pub fn search(query_params: HashMap<&str, &str>) -> Result<CoverList, DexError> 
 ///
 /// * api returns error json response
 /// * serde parsing error
-pub fn get(id: &str) -> Result<Cover, DexError> {
+pub async fn get(id: &str) -> Result<Cover, DexError> {
     let uri = format!("https://api.mangadex.org/cover/{}", id);
     Cover::from_string(
         &get_data(&uri)
+        .await
         .unwrap())
 }
 
@@ -122,8 +124,8 @@ pub fn get(id: &str) -> Result<Cover, DexError> {
 ///
 /// * api returns error json response
 /// * serde parsing error
-pub fn retrieve(id: &str, quality: u16) -> Result<String, DexError>{
-    let cover = match get(&id) {
+pub async fn retrieve(id: &str, quality: u16) -> Result<String, DexError>{
+    let cover = match get(&id).await {
         Ok(c) => c,
         Err(e) => return Err(e)
     };

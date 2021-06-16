@@ -53,10 +53,11 @@ use crate::wrapper::{chapter_list::ChapterList, chapter::Chapter, utils::{DexWra
 ///
 /// * api returns error json response
 /// * serde parsing error
-pub fn search(query_params: HashMap<&str, &str>) -> Result<ChapterList, DexError> {
+pub async fn search(query_params: HashMap<&str, &str>) -> Result<ChapterList, DexError> {
     let uri = parse_url("https://api.mangadex.org/chapter", query_params);
     ChapterList::from_string(
         &get_data(&uri)
+        .await
         .unwrap())
 }
 
@@ -89,10 +90,11 @@ pub fn search(query_params: HashMap<&str, &str>) -> Result<ChapterList, DexError
 ///
 /// * api returns error json response
 /// * serde parsing error
-pub fn get(id: &str) -> Result<Chapter, DexError> {
+pub async fn get(id: &str) -> Result<Chapter, DexError> {
     let uri = format!("https://api.mangadex.org/chapter/{}", id);
     Chapter::from_string(
         &get_data(&uri)
+        .await
         .unwrap())
 }
 
@@ -129,13 +131,13 @@ pub fn get(id: &str) -> Result<Chapter, DexError> {
 ///
 /// * api returns error json response
 /// * serde parsing error
-pub fn retrieve(id: &str, quality_mode: &str) -> Result<Vec<String>, DexError> {
-    let chapter: Chapter = match get(&id) {
+pub async fn retrieve(id: &str, quality_mode: &str) -> Result<Vec<String>, DexError> {
+    let chapter: Chapter = match get(&id).await {
         Ok(c) => c,
         Err(e) => return Err(e)
     };
 
-    let base_url = &base_url(&id)["baseUrl"];
+    let base_url = &base_url(&id).await["baseUrl"];
 
     let uri = format!("{}/{}/{}", base_url, quality_mode, chapter.hash);
 
@@ -154,9 +156,9 @@ pub fn retrieve(id: &str, quality_mode: &str) -> Result<Vec<String>, DexError> {
     Ok(page_urls)
 }
 
-fn base_url(chapter_id: &str) -> HashMap<String, String> {
+async fn base_url(chapter_id: &str) -> HashMap<String, String> {
     let uri = format!("https://api.mangadex.org/at-home/server/{chapter_id}", chapter_id = chapter_id);
-    let deserialized: HashMap<String, String> = serde_json::from_str(&get_data(&uri).unwrap()).unwrap();
+    let deserialized: HashMap<String, String> = serde_json::from_str(&get_data(&uri).await.unwrap()).unwrap();
     
     deserialized
 }

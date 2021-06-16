@@ -43,10 +43,11 @@ use std::collections::HashMap;
 ///
 /// * api returns error json response
 /// * serde parsing error
-pub fn search(query_params: HashMap<&str, &str>) -> Result<CreatorList, DexError> {
+pub async fn search(query_params: HashMap<&str, &str>) -> Result<CreatorList, DexError> {
     let uri = parse_url("https://api.mangadex.org/author", query_params);
     CreatorList::from_string(
         &get_data(&uri)
+        .await
         .unwrap())
 }
 
@@ -79,9 +80,10 @@ pub fn search(query_params: HashMap<&str, &str>) -> Result<CreatorList, DexError
 ///
 /// * api returns error json response
 /// * serde parsing error
-pub fn get(id: &str) -> Result<CreatorTemplate, DexError> {
+pub async fn get(id: &str) -> Result<CreatorTemplate, DexError> {
     let uri = format!("https://api.mangadex.org/author/{}", id);
     CreatorTemplate::from_string(
         &get_data(&uri)
+        .await
         .unwrap())
 }
