@@ -6,6 +6,8 @@ use super::utils::DexError;
 use super::utils::DexWrappedObject;
 #[allow(unused_imports)]
 use std::fs;
+#[allow(unused_imports)]
+use std::path::Path;
 
 #[test]
 #[allow(unused_must_use)]
@@ -22,7 +24,13 @@ pub fn invalid_json() {
 
 #[test]
 pub fn error_json() {
-    let r = Manga::from_string(&fs::read_to_string("example_responses\\error\\1.txt").unwrap());
+    let path_to_example_response = Path::new(".")
+        .join("example_responses")
+        .join("error")
+        .join("1.txt");
+    let r = Manga::from_string(
+        &fs::read_to_string(path_to_example_response.to_str().unwrap()).unwrap(),
+    );
     match r {
         Ok(_) => panic!("Returned Ok on error json."),
         Err(e) => {

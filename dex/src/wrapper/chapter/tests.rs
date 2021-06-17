@@ -4,10 +4,16 @@ use chrono::{Datelike, Timelike};
 use super::utils::DexWrappedObject;
 use super::Chapter;
 use std::fs;
+use std::path::Path;
 
 #[allow(dead_code)]
 fn load_test_responses() -> Chapter {
-    let s = fs::read_to_string("example_responses\\chapter\\1.txt").unwrap();
+    let path_to_test_responses = Path::new(".")
+        .join("example_responses")
+        .join("chapter")
+        .join("1.txt");
+
+    let s = fs::read_to_string(path_to_test_responses.to_str().unwrap()).unwrap();
 
     Chapter::from_string(&s).unwrap()
 }
