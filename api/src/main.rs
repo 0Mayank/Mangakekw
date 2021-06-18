@@ -23,6 +23,8 @@ impl<'r> Responder<'r, 'static> for ApiResponse {
         Response::build()
             .status(self.status)
             .header(http::ContentType::JSON)
+            .raw_header("server", "Mangakekw using Rocket") //default is "Rocket"
+            // .raw_header("x-frame-options", "DENY") // refer to <https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options>
             .sized_body(self.body.len(), Cursor::new(self.body))
             .ok()
     }
