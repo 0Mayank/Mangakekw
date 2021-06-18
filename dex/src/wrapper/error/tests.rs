@@ -14,9 +14,9 @@ use std::path::Path;
 pub fn invalid_json() {
     if let Err(e) = Manga::from_string("{}") {
         match e {
-            DexError::InvalidJSON => (),
+            DexError::InvalidSchema => (),
             DexError::InvalidRequest(_) => {
-                panic!("Wrong type of error returned, expected InvalidJSON got InvalidRequest(_)")
+                panic!("Wrong type of error returned, expected InvalidSchema got InvalidRequest(_)")
             }
         }
     }

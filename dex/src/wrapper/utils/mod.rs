@@ -1,5 +1,6 @@
 use super::error;
 use serde::{Deserialize, Serialize};
+use thiserror::Error;
 #[derive(Deserialize)]
 #[serde(rename_all(deserialize = "snake_case", serialize = "snake_case"))]
 pub enum RelationshipType {
@@ -86,10 +87,13 @@ pub struct DexRaw<T> {
     pub attributes: T,
 }
 
-#[derive(Debug)]
+#[derive(Error, Debug)]
 pub enum DexError {
+    #[error("Mangadexapi returned a response containing error(s)")]
     InvalidRequest(error::ErrorList),
-    InvalidJSON,
+
+    #[error("The JSON could not be parsed, invlaid schema")]
+    InvalidSchema,
 }
 
 /// Base trait implemented by every struct returned by from_string
@@ -150,7 +154,7 @@ where
                     serde_json::from_str(string);
                 match error_response {
                     Ok(r) => Err(DexError::InvalidRequest(error::ErrorList::from_response(r))),
-                    Err(_) => Err(DexError::InvalidJSON),
+                    Err(_) => Err(DexError::InvalidSchema),
                 }
             }
         }
