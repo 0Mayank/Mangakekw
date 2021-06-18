@@ -90,11 +90,15 @@ pub async fn search(query_params: HashMap<&str, &str>) -> Result<MangaList, DexE
 /// # Example
 ///
 /// ```
+/// extern crate tokio;
 /// use dex::wrapper::utils::DexWrappedObject;
 /// use dex::request::manga;
 ///
-/// let manga = manga::get("eb2d1a45-d4e7-4e32-a171-b5b029c5b0cb").unwrap();
-/// println!("{}", manga.serialize(true));
+/// #[tokio::main]
+/// async fn main() {
+///     let manga = manga::get("eb2d1a45-d4e7-4e32-a171-b5b029c5b0cb").await.unwrap();
+///     println!("{:?}", manga.serialize(true));
+/// }
 /// ```
 ///
 /// # Panics
