@@ -20,7 +20,7 @@ impl utils::DexWrappedObject for MangaList {
             data: response
                 .results
                 .into_iter()
-                .map(|manga_response| manga::Manga::from_response(manga_response))
+                .map(manga::Manga::from_response)
                 .collect(),
             count: response.total as usize,
         }

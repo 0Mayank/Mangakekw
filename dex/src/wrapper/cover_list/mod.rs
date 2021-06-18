@@ -20,7 +20,7 @@ impl utils::DexWrappedObject for CoverList {
             data: response
                 .results
                 .into_iter()
-                .map(|chapter_response| cover::Cover::from_response(chapter_response))
+                .map(cover::Cover::from_response)
                 .collect(),
             count: response.total as usize,
         }

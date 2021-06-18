@@ -20,7 +20,7 @@ impl utils::DexWrappedObject for CreatorList {
             data: response
                 .results
                 .into_iter()
-                .map(|creator_response| creator::CreatorTemplate::from_response(creator_response))
+                .map(creator::CreatorTemplate::from_response)
                 .collect(),
             count: response.total as usize,
         }

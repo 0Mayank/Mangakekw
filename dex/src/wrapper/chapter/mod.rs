@@ -30,9 +30,8 @@ impl utils::DexWrappedObject for Chapter {
     fn from_response(response: Self::Parser) -> Self {
         let mut manga_id = String::new();
         for relation in response.relationships {
-            match relation.r#type {
-                utils::RelationshipType::Manga => manga_id = relation.id,
-                _ => (),
+            if let utils::RelationshipType::Manga = relation.r#type {
+                manga_id = relation.id
             }
         }
         Chapter {

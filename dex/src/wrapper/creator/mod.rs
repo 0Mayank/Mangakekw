@@ -21,9 +21,8 @@ impl utils::DexWrappedObject for CreatorTemplate {
     fn from_response(response: Self::Parser) -> Self {
         let mut works = Vec::new();
         for relation in response.relationships {
-            match relation.r#type {
-                utils::RelationshipType::Manga => works.push(relation.id),
-                _ => (),
+            if let utils::RelationshipType::Manga = relation.r#type {
+                works.push(relation.id)
             }
         }
 

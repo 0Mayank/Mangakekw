@@ -20,7 +20,7 @@ impl utils::DexWrappedObject for ChapterList {
             data: response
                 .results
                 .into_iter()
-                .map(|chapter_response| chapter::Chapter::from_response(chapter_response))
+                .map(chapter::Chapter::from_response)
                 .collect(),
             count: response.total as usize,
         }
