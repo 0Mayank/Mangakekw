@@ -1,7 +1,7 @@
 use super::error;
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 #[serde(rename_all(deserialize = "snake_case", serialize = "snake_case"))]
 pub enum RelationshipType {
     Manga,
@@ -48,21 +48,21 @@ pub enum Status {
     Cancelled,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 #[serde(rename_all(deserialize = "camelCase", serialize = "camelCase"))]
 pub enum ResponseResult {
     Ok,
     Error,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 #[allow(dead_code)]
 #[serde(rename_all(deserialize = "camelCase", serialize = "camelCase"))]
 pub struct Relationship {
     pub id: String,
     pub r#type: RelationshipType,
 }
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 #[allow(dead_code)]
 #[serde(rename_all(deserialize = "camelCase"))]
 pub struct DexResponse<T> {
@@ -71,7 +71,7 @@ pub struct DexResponse<T> {
     pub relationships: Vec<Relationship>,
 }
 
-#[derive(Deserialize, Debug)]
+#[derive(Deserialize, Debug, Serialize)]
 #[allow(dead_code)]
 #[serde(rename_all(deserialize = "camelCase"))]
 pub struct DexListResponse<T> {
@@ -79,7 +79,7 @@ pub struct DexListResponse<T> {
     pub total: usize,
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Serialize)]
 #[allow(dead_code)]
 #[serde(rename_all(deserialize = "camelCase"))]
 pub struct DexRaw<T> {
@@ -106,7 +106,7 @@ pub enum DexError {
 /// ```
 pub trait DexWrappedObject
 where
-    Self: Sized,
+    Self: Sized + Serialize,
 {
     /// The type used to parse the JSON into a struct
     /// # Trait Bounds
@@ -121,10 +121,7 @@ where
     /// `pretty` - If `true`, the string returned is formatted with indentations for human readablity
     ///# Errors
     /// Serialization can fail if `Self`'s implementation of Serialize decides to fail, or if `Self` contains a map with non-string keys.
-    fn serialize(&self, pretty: bool) -> Result<String, serde_json::Error>
-    where
-        Self: serde::Serialize,
-    {
+    fn serialize(&self, pretty: bool) -> Result<String, serde_json::Error> {
         if pretty {
             serde_json::to_string_pretty(self)
         } else {

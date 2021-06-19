@@ -1,28 +1,41 @@
 pub mod parser;
 
-use super::creator;
+use super::creator::CreatorTemplate;
 use super::utils;
 use parser::*;
 use serde::Serialize;
+use std::ops::Deref;
+use std::ops::DerefMut;
 
 #[derive(Serialize)]
 #[serde(rename_all(serialize = "camelCase"))]
-pub struct CreatorList {
-    pub data: Vec<creator::CreatorTemplate>,
-    pub count: usize,
-}
+pub struct CreatorList(utils::DexListResponse<CreatorTemplate>);
 
 impl utils::DexWrappedObject for CreatorList {
     type Parser = CreatorListResponse;
 
     fn from_response(response: Self::Parser) -> Self {
-        CreatorList {
-            data: response
+        CreatorList(utils::DexListResponse {
+            results: response
                 .results
                 .into_iter()
-                .map(creator::CreatorTemplate::from_response)
+                .map(CreatorTemplate::from_response)
                 .collect(),
-            count: response.total as usize,
-        }
+            total: response.total as usize,
+        })
+    }
+}
+
+impl Deref for CreatorList {
+    type Target = utils::DexListResponse<CreatorTemplate>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
+    }
+}
+
+impl DerefMut for CreatorList {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.0
     }
 }
