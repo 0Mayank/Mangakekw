@@ -26,15 +26,30 @@ pub mod meta {
         }
     }
 
-    pub fn resolve<T: DexWrappedObject>(result: Result<T, DexError>) -> ApiResponse {
-        match result {
-            Ok(resp) => ApiResponse {
-                body: <T as DexWrappedObject>::serialize(&resp, false).unwrap(), // cannot return error for this
-                status: http::Status::Ok,
-            },
-            Err(e) => match e {
+    impl ApiResponse {
+        pub fn resolve<T: DexWrappedObject>(result: Result<T, DexError>) -> ApiResponse {
+            match result {
+                Ok(resp) => ApiResponse {
+                    body: <T as DexWrappedObject>::serialize(&resp, false).unwrap(), // cannot return error for this
+                    status: http::Status::Ok,
+                },
+                Err(e) => Self::handle_error(e),
+            }
+        }
+
+        pub fn resolve_url(result: Result<String, DexError>) -> ApiResponse {
+            match result {
+                Ok(resp) => ApiResponse {
+                    body: json!({ "url": resp }).to_string(),
+                    status: http::Status::Ok,
+                },
+                Err(e) => Self::handle_error(e),
+            }
+        }
+
+        fn handle_error(error: DexError) -> ApiResponse {
+            match error {
                 DexError::InvalidRequest(error_list) => ApiResponse {
-                    // body: json!(error_list.results).to_string(),
                     body: <DexErrorList as DexWrappedObject>::serialize(&error_list, false)
                         .unwrap(),
                     status: http::Status::NotFound,
@@ -49,7 +64,7 @@ pub mod meta {
                     .to_string(),
                     status: http::Status::InternalServerError,
                 },
-            },
+            }
         }
     }
 }
