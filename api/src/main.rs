@@ -1,7 +1,12 @@
 #[macro_use]
 extern crate rocket;
 
-use api::meta::ApiResponse;
+#[macro_use]
+extern crate serde_json;
+
+mod utils;
+
+use utils::meta::ApiResponse;
 use dex::request::author;
 use dex::request::cover;
 use dex::request::manga;
@@ -30,6 +35,26 @@ async fn get_cover(id: &str) -> ApiResponse {
     let result = cover::retrieve(id, 512).await;
 
     ApiResponse::resolve_url(result)
+}
+
+#[get("/search/manga/<id>")]
+async fn search_manga(id: &str) -> ApiResponse {
+    todo!()
+}
+
+#[get("/search/author/<id>")]
+async fn search_author(id: &str) -> ApiResponse {
+    todo!()
+}
+
+#[get("/search/chapter/<id>")]
+async fn search_chapter(id: &str) -> ApiResponse {
+    todo!()
+}
+
+#[get("/search/cover/<id>")]
+async fn search_cover(id: &str) -> ApiResponse {
+    todo!()
 }
 
 #[launch]
