@@ -1,7 +1,12 @@
 use super::utils::{get_data, parse_url};
 use std::collections::HashMap;
 
-use crate::wrapper::{manga::Manga, manga_list::MangaList, chapter_list::ChapterList, utils::{DexWrappedObject, DexError}};
+use crate::wrapper::{
+    chapter_list::ChapterList,
+    manga::Manga,
+    manga_list::MangaList,
+    utils::{DexError, DexWrappedObject},
+};
 
 /// Searh manga by passing query parameters as query params. Query: "https://api.mangadex.org/manga".
 ///
@@ -44,7 +49,7 @@ use crate::wrapper::{manga::Manga, manga_list::MangaList, chapter_list::ChapterL
 ///     * `order` - object
 ///
 /// # Example
-/// 
+///
 /// ```
 /// use std::collections::HashMap;
 /// use dex::wrapper::utils::DexWrappedObject;
@@ -56,7 +61,7 @@ use crate::wrapper::{manga::Manga, manga_list::MangaList, chapter_list::ChapterL
 /// query_params.insert("offset", "3");
 ///
 /// let mangas = manga::search(query_params).unwrap();
-/// 
+///
 /// println!("{}", mangas.serialize(true));
 /// ```
 ///
@@ -67,7 +72,7 @@ use crate::wrapper::{manga::Manga, manga_list::MangaList, chapter_list::ChapterL
 /// * redirect loop was detected
 /// * redirect limit was exhausted
 /// * response cannot be parsed to string
-/// 
+///
 /// # Errors
 /// returns enum DexError
 ///
@@ -75,10 +80,7 @@ use crate::wrapper::{manga::Manga, manga_list::MangaList, chapter_list::ChapterL
 /// * serde parsing error
 pub async fn search(query_params: HashMap<&str, &str>) -> Result<MangaList, DexError> {
     let uri = parse_url("https://api.mangadex.org/manga", query_params);
-    MangaList::from_string(
-        &get_data(&uri)
-        .await
-        .unwrap())
+    MangaList::from_string(&get_data(&uri).await.unwrap())
 }
 
 /// Get manga from manga's id. Query: "https://api.mangadex.org/manga/{id}".
@@ -108,18 +110,15 @@ pub async fn search(query_params: HashMap<&str, &str>) -> Result<MangaList, DexE
 /// * redirect loop was detected
 /// * redirect limit was exhausted
 /// * response cannot be parsed to string
-/// 
+///
 /// # Errors
 /// returns enum DexError
 ///
 /// * api returns error json response
 /// * serde parsing error
-pub async fn get(id: &str) ->  Result<Manga, DexError> {
+pub async fn get(id: &str) -> Result<Manga, DexError> {
     let uri = format!("https://api.mangadex.org/manga/{}", id);
-    Manga::from_string(
-        &get_data(&uri)
-        .await
-        .unwrap())
+    Manga::from_string(&get_data(&uri).await.unwrap())
 }
 
 /// Get chapter from chapter's id. Query: "https://api.mangadex.org/manga/random".
@@ -141,7 +140,7 @@ pub async fn get(id: &str) ->  Result<Manga, DexError> {
 /// * redirect loop was detected
 /// * redirect limit was exhausted
 /// * response cannot be parsed to string
-/// 
+///
 /// # Errors
 /// returns enum DexError
 ///
@@ -149,10 +148,7 @@ pub async fn get(id: &str) ->  Result<Manga, DexError> {
 /// * serde parsing error
 pub async fn random() -> Result<Manga, DexError> {
     let uri = "https://api.mangadex.org/manga/random";
-    Manga::from_string(
-        &get_data(uri)
-        .await
-        .unwrap())
+    Manga::from_string(&get_data(uri).await.unwrap())
 }
 
 /// Feed manga chapters by passing manga id and query parameters as query params. Query: "https://api.mangadex.org/manga".
@@ -170,7 +166,7 @@ pub async fn random() -> Result<Manga, DexError> {
 ///     * `order` - object
 ///
 /// # Example
-/// 
+///
 /// ```
 /// use std::collections::HashMap;
 /// use dex::wrapper::utils::DexWrappedObject;
@@ -182,7 +178,7 @@ pub async fn random() -> Result<Manga, DexError> {
 /// query_params.insert("offset", "3");
 ///
 /// let chapters = manga::feed("eb2d1a45-d4e7-4e32-a171-b5b029c5b0cb", query_params).unwrap();
-/// 
+///
 /// println!("{}", chapters.serialize(true));
 /// ```
 ///
@@ -193,7 +189,7 @@ pub async fn random() -> Result<Manga, DexError> {
 /// * redirect loop was detected
 /// * redirect limit was exhausted
 /// * response cannot be parsed to string
-/// 
+///
 /// # Errors
 /// returns enum DexError
 ///
@@ -202,10 +198,7 @@ pub async fn random() -> Result<Manga, DexError> {
 pub async fn feed(id: &str, query_params: HashMap<&str, &str>) -> Result<ChapterList, DexError> {
     let uri = parse_url(
         &format!("https://api.mangadex.org/manga/{}/feed", id),
-        query_params
+        query_params,
     );
-    ChapterList::from_string(
-        &get_data(&uri)
-        .await
-        .unwrap())
+    ChapterList::from_string(&get_data(&uri).await.unwrap())
 }

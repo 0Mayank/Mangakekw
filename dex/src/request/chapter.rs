@@ -1,7 +1,11 @@
 use std::collections::HashMap;
 
 use super::utils::{get_data, parse_url};
-use crate::wrapper::{chapter_list::ChapterList, chapter::Chapter, utils::{DexWrappedObject, DexError}};
+use crate::wrapper::{
+    chapter::Chapter,
+    chapter_list::ChapterList,
+    utils::{DexError, DexWrappedObject},
+};
 
 /// Searh chapters by passing query parameters as query params. Query: "https://api.mangadex.org/chapter".
 ///
@@ -24,7 +28,7 @@ use crate::wrapper::{chapter_list::ChapterList, chapter::Chapter, utils::{DexWra
 ///     * `order` - object
 ///
 /// # Example
-/// 
+///
 /// ```
 /// use std::collections::HashMap;
 /// use dex::wrapper::utils::DexWrappedObject;
@@ -36,7 +40,7 @@ use crate::wrapper::{chapter_list::ChapterList, chapter::Chapter, utils::{DexWra
 /// query_params.insert("offset", "3");
 ///
 /// let chapters = chapter::search(query_params).unwrap();
-/// 
+///
 /// println!("{}", chapters.serialize(true));
 /// ```
 ///
@@ -47,7 +51,7 @@ use crate::wrapper::{chapter_list::ChapterList, chapter::Chapter, utils::{DexWra
 /// * redirect loop was detected
 /// * redirect limit was exhausted
 /// * response cannot be parsed to string
-/// 
+///
 /// # Errors
 /// returns enum DexError
 ///
@@ -55,10 +59,7 @@ use crate::wrapper::{chapter_list::ChapterList, chapter::Chapter, utils::{DexWra
 /// * serde parsing error
 pub async fn search(query_params: HashMap<&str, &str>) -> Result<ChapterList, DexError> {
     let uri = parse_url("https://api.mangadex.org/chapter", query_params);
-    ChapterList::from_string(
-        &get_data(&uri)
-        .await
-        .unwrap())
+    ChapterList::from_string(&get_data(&uri).await.unwrap())
 }
 
 /// Get chapter from chapter's id. Query: "https://api.mangadex.org/chapter/{id}".
@@ -84,7 +85,7 @@ pub async fn search(query_params: HashMap<&str, &str>) -> Result<ChapterList, De
 /// * redirect loop was detected
 /// * redirect limit was exhausted
 /// * response cannot be parsed to string
-/// 
+///
 /// # Errors
 /// returns enum DexError
 ///
@@ -92,10 +93,7 @@ pub async fn search(query_params: HashMap<&str, &str>) -> Result<ChapterList, De
 /// * serde parsing error
 pub async fn get(id: &str) -> Result<Chapter, DexError> {
     let uri = format!("https://api.mangadex.org/chapter/{}", id);
-    Chapter::from_string(
-        &get_data(&uri)
-        .await
-        .unwrap())
+    Chapter::from_string(&get_data(&uri).await.unwrap())
 }
 
 /// Retrieve links for images of chapter pages.
@@ -125,19 +123,19 @@ pub async fn get(id: &str) -> Result<Chapter, DexError> {
 /// * redirect loop was detected
 /// * redirect limit was exhausted
 /// * response cannot be parsed to string
-/// 
+///
 /// # Errors
 /// returns enum DexError
 ///
 /// * api returns error json response
 /// * serde parsing error
 pub async fn retrieve(id: &str, quality_mode: &str) -> Result<Vec<String>, DexError> {
-    let chapter: Chapter = match get(&id).await {
+    let chapter: Chapter = match get(id).await {
         Ok(c) => c,
-        Err(e) => return Err(e)
+        Err(e) => return Err(e),
     };
 
-    let base_url = &base_url(&id).await["baseUrl"];
+    let base_url = &base_url(id).await["baseUrl"];
 
     let uri = format!("{}/{}/{}", base_url, quality_mode, chapter.hash);
 
@@ -145,11 +143,13 @@ pub async fn retrieve(id: &str, quality_mode: &str) -> Result<Vec<String>, DexEr
         chapter.data
     } else if quality_mode == "data-saver" {
         chapter.data_saver
-    } else {chapter.data};
+    } else {
+        chapter.data
+    };
 
     let mut page_urls = Vec::new();
 
-    for page in pages{
+    for page in pages {
         page_urls.push(format!("{}/{}", uri, page))
     }
 
@@ -157,8 +157,12 @@ pub async fn retrieve(id: &str, quality_mode: &str) -> Result<Vec<String>, DexEr
 }
 
 async fn base_url(chapter_id: &str) -> HashMap<String, String> {
-    let uri = format!("https://api.mangadex.org/at-home/server/{chapter_id}", chapter_id = chapter_id);
-    let deserialized: HashMap<String, String> = serde_json::from_str(&get_data(&uri).await.unwrap()).unwrap();
-    
+    let uri = format!(
+        "https://api.mangadex.org/at-home/server/{chapter_id}",
+        chapter_id = chapter_id
+    );
+    let deserialized: HashMap<String, String> =
+        serde_json::from_str(&get_data(&uri).await.unwrap()).unwrap();
+
     deserialized
 }

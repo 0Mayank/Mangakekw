@@ -1,7 +1,11 @@
 use std::collections::HashMap;
 
 use super::utils::{get_data, parse_url};
-use crate::wrapper::{cover_list::CoverList, cover::Cover, utils::{DexWrappedObject, DexError}};
+use crate::wrapper::{
+    cover::Cover,
+    cover_list::CoverList,
+    utils::{DexError, DexWrappedObject},
+};
 
 /// Searh cover by passing query parameters as query params. Query: "https://api.mangadex.org/cover".
 ///
@@ -16,7 +20,7 @@ use crate::wrapper::{cover_list::CoverList, cover::Cover, utils::{DexWrappedObje
 ///     * `order` - object
 ///
 /// # Example
-/// 
+///
 /// ```
 /// use std::collections::HashMap;
 /// use dex::wrapper::utils::DexWrappedObject;
@@ -28,7 +32,7 @@ use crate::wrapper::{cover_list::CoverList, cover::Cover, utils::{DexWrappedObje
 /// query_params.insert("offset", "3");
 ///
 /// let covers = cover::search(query_params).unwrap();
-/// 
+///
 /// println!("{}", covers.serialize(true));
 /// ```
 ///
@@ -39,7 +43,7 @@ use crate::wrapper::{cover_list::CoverList, cover::Cover, utils::{DexWrappedObje
 /// * redirect loop was detected
 /// * redirect limit was exhausted
 /// * response cannot be parsed to string
-/// 
+///
 /// # Errors
 /// returns enum DexError
 ///
@@ -47,10 +51,7 @@ use crate::wrapper::{cover_list::CoverList, cover::Cover, utils::{DexWrappedObje
 /// * serde parsing error
 pub async fn search(query_params: HashMap<&str, &str>) -> Result<CoverList, DexError> {
     let uri = parse_url("https://api.mangadex.org/cover", query_params);
-    CoverList::from_string(
-        &get_data(&uri)
-        .await
-        .unwrap())
+    CoverList::from_string(&get_data(&uri).await.unwrap())
 }
 
 /// Get cover from cover's id. Query: "https://api.mangadex.org/cover/{id}".
@@ -76,7 +77,7 @@ pub async fn search(query_params: HashMap<&str, &str>) -> Result<CoverList, DexE
 /// * redirect loop was detected
 /// * redirect limit was exhausted
 /// * response cannot be parsed to string
-/// 
+///
 /// # Errors
 /// returns enum DexError
 ///
@@ -84,10 +85,7 @@ pub async fn search(query_params: HashMap<&str, &str>) -> Result<CoverList, DexE
 /// * serde parsing error
 pub async fn get(id: &str) -> Result<Cover, DexError> {
     let uri = format!("https://api.mangadex.org/cover/{}", id);
-    Cover::from_string(
-        &get_data(&uri)
-        .await
-        .unwrap())
+    Cover::from_string(&get_data(&uri).await.unwrap())
 }
 
 /// Retrieve links for the image of cover
@@ -118,19 +116,22 @@ pub async fn get(id: &str) -> Result<Cover, DexError> {
 /// * redirect loop was detected
 /// * redirect limit was exhausted
 /// * response cannot be parsed to string
-/// 
+///
 /// # Errors
 /// returns enum DexError
 ///
 /// * api returns error json response
 /// * serde parsing error
-pub async fn retrieve(id: &str, quality: u16) -> Result<String, DexError>{
-    let cover = match get(&id).await {
+pub async fn retrieve(id: &str, quality: u16) -> Result<String, DexError> {
+    let cover = match get(id).await {
         Ok(c) => c,
-        Err(e) => return Err(e)
+        Err(e) => return Err(e),
     };
 
-    let mut url = format!("https://uploads.mangadex.org/covers/{}/{}", cover.manga_id, cover.file_name);
+    let mut url = format!(
+        "https://uploads.mangadex.org/covers/{}/{}",
+        cover.manga_id, cover.file_name
+    );
 
     if quality == 512 {
         url.push_str(".512.jpg")

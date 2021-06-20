@@ -6,4 +6,4 @@ rampup: 4
 plan:
   - name: Get Manga
     request:
-      url: /api/get_manga/d8d6a0c7-6ef0-4b8f-a71c-3bd89395a71b
+      url: /api/get/manga/d8d6a0c7-6ef0-4b8f-a71c-3bd89395a71b
