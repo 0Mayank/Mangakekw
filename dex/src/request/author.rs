@@ -1,5 +1,9 @@
 use super::utils::{get_data, parse_url};
-use crate::wrapper::{creator::CreatorTemplate, creator_list::CreatorList,utils::{DexWrappedObject, DexError}};
+use crate::wrapper::{
+    creator::CreatorTemplate,
+    creator_list::CreatorList,
+    utils::{DexError, DexWrappedObject},
+};
 use std::collections::HashMap;
 
 /// Searh authors by passing query parameters as query params. Query: "https://api.mangadex.org/author".
@@ -14,7 +18,7 @@ use std::collections::HashMap;
 ///     * `order` - object
 ///
 /// # Example
-/// 
+///
 /// ```
 /// use std::collections::HashMap;
 /// use dex::wrapper::utils::DexWrappedObject;
@@ -26,7 +30,7 @@ use std::collections::HashMap;
 /// query_params.insert("offset", "3");
 ///
 /// let authors = author::search(query_params).unwrap();
-/// 
+///
 /// println!("{}",authors.serialize(true));
 /// ```
 ///
@@ -37,7 +41,7 @@ use std::collections::HashMap;
 /// * redirect loop was detected
 /// * redirect limit was exhausted
 /// * response cannot be parsed to string
-/// 
+///
 /// # Errors
 /// returns enum DexError
 ///
@@ -45,10 +49,7 @@ use std::collections::HashMap;
 /// * serde parsing error
 pub async fn search(query_params: HashMap<&str, &str>) -> Result<CreatorList, DexError> {
     let uri = parse_url("https://api.mangadex.org/author", query_params);
-    CreatorList::from_string(
-        &get_data(&uri)
-        .await
-        .unwrap())
+    CreatorList::from_string(&get_data(&uri).await.unwrap())
 }
 
 /// Get author from author's id. Query: "https://api.mangadex.org/author/{id}".
@@ -74,7 +75,7 @@ pub async fn search(query_params: HashMap<&str, &str>) -> Result<CreatorList, De
 /// * redirect loop was detected
 /// * redirect limit was exhausted
 /// * response cannot be parsed to string
-/// 
+///
 /// # Errors
 /// returns enum DexError
 ///
@@ -82,8 +83,5 @@ pub async fn search(query_params: HashMap<&str, &str>) -> Result<CreatorList, De
 /// * serde parsing error
 pub async fn get(id: &str) -> Result<CreatorTemplate, DexError> {
     let uri = format!("https://api.mangadex.org/author/{}", id);
-    CreatorTemplate::from_string(
-        &get_data(&uri)
-        .await
-        .unwrap())
+    CreatorTemplate::from_string(&get_data(&uri).await.unwrap())
 }

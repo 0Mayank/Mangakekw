@@ -6,10 +6,10 @@ extern crate serde_json;
 
 mod utils;
 
-use utils::meta::ApiResponse;
 use dex::request::author;
 use dex::request::cover;
 use dex::request::manga;
+use utils::meta::ApiResponse;
 
 #[get("/")]
 fn index() -> &'static str {
@@ -37,27 +37,39 @@ async fn get_cover(id: &str) -> ApiResponse {
     ApiResponse::resolve_url(result)
 }
 
-#[get("/search/manga/<id>")]
-async fn search_manga(id: &str) -> ApiResponse {
+#[get("/search/manga/<_id>")]
+async fn search_manga(_id: &str) -> ApiResponse {
     todo!()
 }
 
-#[get("/search/author/<id>")]
-async fn search_author(id: &str) -> ApiResponse {
+#[get("/search/author/<_id>")]
+async fn search_author(_id: &str) -> ApiResponse {
     todo!()
 }
 
-#[get("/search/chapter/<id>")]
-async fn search_chapter(id: &str) -> ApiResponse {
+#[get("/search/chapter/<_id>")]
+async fn search_chapter(_id: &str) -> ApiResponse {
     todo!()
 }
 
-#[get("/search/cover/<id>")]
-async fn search_cover(id: &str) -> ApiResponse {
+#[get("/search/cover/<_id>")]
+async fn search_cover(_id: &str) -> ApiResponse {
     todo!()
 }
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/api/", routes![index, get_manga, get_author, get_cover])
+    rocket::build().mount(
+        "/api/",
+        routes![
+            index,
+            get_manga,
+            get_author,
+            get_cover,
+            search_author,
+            search_manga,
+            search_chapter,
+            search_cover
+        ],
+    )
 }
