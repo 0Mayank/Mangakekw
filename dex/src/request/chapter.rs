@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, str};
 
 use super::utils::{get_data, parse_url};
 use crate::wrapper::{
@@ -109,11 +109,20 @@ pub async fn get(id: &str) -> Result<Chapter, DexError> {
 /// # Example
 ///
 /// ```
+/// extern crate tokio;
 /// use dex::wrapper::utils::DexWrappedObject;
-/// use dex::request::chapter;
+/// use dex::request::chapter::{self, CqueryParams};
 ///
-/// let pages = chapter::retrieve("f5ec5e4f-2c95-48ca-b3f9-8e9ed6227928", "data").unwrap();
-/// println!("{:#?}", pages);
+/// #[tokio::main]
+/// async fn main() {
+///     let params = CqueryParams::WithoutHF {
+///          id: "f5ec5e4f-2c95-48ca-b3f9-8e9ed6227928",
+///          quality: "data"      
+///         };
+///
+///     let chapter = chapter::retrieve(params).await.unwrap();
+///     println!("{:?}", chapter);
+/// }
 /// ```
 ///
 /// # Panics
@@ -129,23 +138,12 @@ pub async fn get(id: &str) -> Result<Chapter, DexError> {
 ///
 /// * api returns error json response
 /// * serde parsing error
-pub async fn retrieve(id: &str, quality_mode: &str) -> Result<Vec<String>, DexError> {
-    let chapter: Chapter = match get(id).await {
-        Ok(c) => c,
-        Err(e) => return Err(e),
-    };
+pub async fn retrieve<'a>(params: CqueryParams<'a>) -> Result<Vec<String>, DexError> {
+    
+    let (id, quality, hash, pages) = parse_params(params).await?;
 
     let base_url = &base_url(id).await["baseUrl"];
-
-    let uri = format!("{}/{}/{}", base_url, quality_mode, chapter.hash);
-
-    let pages = if quality_mode == "data" {
-        chapter.data
-    } else if quality_mode == "data-saver" {
-        chapter.data_saver
-    } else {
-        chapter.data
-    };
+    let uri = format!("{}/{}/{}", base_url, quality, hash);
 
     let mut page_urls = Vec::new();
 
@@ -154,6 +152,43 @@ pub async fn retrieve(id: &str, quality_mode: &str) -> Result<Vec<String>, DexEr
     }
 
     Ok(page_urls)
+}
+
+async fn parse_params<'a>(param_type: CqueryParams<'a>) -> Result<(&str, &str, String, Vec<String>), DexError>{
+    let hash: String;
+    let pages;
+    let id;
+    let quality;
+
+    match param_type {
+        CqueryParams::WithoutHF{id: i, quality: q} => {
+            id = i;
+            quality = q;
+
+            let chapter: Chapter = match get(id).await {
+                Ok(c) => c,
+                Err(e) => return Err(e),
+            };
+
+            pages = if quality == "data" {
+                chapter.data
+            } else if quality == "data-saver" {
+                chapter.data_saver
+            } else {
+                chapter.data
+            };
+
+            hash = chapter.hash;
+        },
+        CqueryParams::WithHF{id: i, quality: q, hash: h, file_names} => {
+            id = i;
+            quality = q;
+            hash = h;
+            pages = file_names;
+        }
+    }
+
+    Ok((id, quality, hash, pages))
 }
 
 async fn base_url(chapter_id: &str) -> HashMap<String, String> {
@@ -165,4 +200,17 @@ async fn base_url(chapter_id: &str) -> HashMap<String, String> {
         serde_json::from_str(&get_data(&uri).await.unwrap()).unwrap();
 
     deserialized
+}
+
+pub enum CqueryParams<'a>{
+    WithoutHF{
+        id: &'a str,
+        quality: &'a str
+    },
+    WithHF{
+        id: &'a str,
+        quality: &'a str,
+        hash: String,
+        file_names: Vec<String>
+    }
 }
