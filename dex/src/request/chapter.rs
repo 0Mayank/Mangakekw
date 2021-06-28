@@ -138,7 +138,7 @@ pub async fn get(id: &str) -> Result<Chapter, DexError> {
 ///
 /// * api returns error json response
 /// * serde parsing error
-pub async fn retrieve<'a>(params: CqueryParams<'a>) -> Result<Vec<String>, DexError> {
+pub async fn retrieve(params: CqueryParams<'_>) -> Result<Vec<String>, DexError> {
     
     let (id, quality, hash, pages) = parse_params(params).await?;
 
@@ -154,7 +154,7 @@ pub async fn retrieve<'a>(params: CqueryParams<'a>) -> Result<Vec<String>, DexEr
     Ok(page_urls)
 }
 
-async fn parse_params<'a>(param_type: CqueryParams<'a>) -> Result<(&str, &str, String, Vec<String>), DexError>{
+async fn parse_params(param_type: CqueryParams<'_>) -> Result<(&str, &str, String, Vec<String>), DexError>{
     let hash: String;
     let pages;
     let id;
