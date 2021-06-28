@@ -1,4 +1,4 @@
-use super::utils::{get_data, parse_url};
+use super::utils::{DynParam, get_data, parse_url};
 use crate::wrapper::{
     creator::CreatorTemplate,
     creator_list::CreatorList,
@@ -47,7 +47,7 @@ use std::collections::HashMap;
 ///
 /// * api returns error json response
 /// * serde parsing error
-pub async fn search(query_params: HashMap<&str, &str>) -> Result<CreatorList, DexError> {
+pub async fn search(query_params: HashMap<&str, DynParam<'_>>) -> Result<CreatorList, DexError> {
     let uri = parse_url("https://api.mangadex.org/author", query_params);
     CreatorList::from_string(&get_data(&uri).await.unwrap())
 }

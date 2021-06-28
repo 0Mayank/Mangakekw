@@ -1,16 +1,40 @@
 use std::collections::HashMap;
 
-pub async fn get_data(uri: &str) -> Result<String, reqwest::Error> {
+pub enum DynParam<'a> {
+    String(Option<&'a str>),
+    Array(Option<Vec<String>>),
+    Integer(Option<i32>)
+}
+
+pub(crate) async fn get_data(uri: &str) -> Result<String, reqwest::Error> {
     let json_text = reqwest::get(uri).await?.text().await?;
 
     Ok(json_text)
 }
 
-pub fn parse_url(query: &str, query_params: HashMap<&str, &str>) -> String {
+pub(crate) fn parse_url(query: &str, query_params: HashMap<&str, DynParam<'_>>) -> String {
     let mut url = format!("{}?", query);
 
     for (k, v) in query_params.iter() {
-        url = format!("{}{}={}&", url, k, v);
+        match v {
+            DynParam::String(v)=> {
+                if let Some(v) = v {
+                    url = format!("{}{}={}&", url, k, v);
+                }
+            }
+            DynParam::Array(v) => {
+                if let Some(v) = v {
+                    for v in v.iter() {
+                        url = format!("{}{}[]={}&", url, k, v);
+                    }
+                }
+            }
+            DynParam::Integer(v) => {
+                if let Some(v) = v {
+                    url = format!("{}{}={}&", url, k, v);
+                }
+            }
+        } 
     }
 
     url
@@ -24,7 +48,7 @@ pub fn parse_url(query: &str, query_params: HashMap<&str, &str>) -> String {
 //     #[test]
 //     fn url_parsing_1() {
 //         let mut query_params = HashMap::new();
-//         query_params.insert("limit", "2");
+//         query_params.insert("limit", Some("2"));
 //         assert_eq!(
 //             "https://api.mangadex.org/manga?limit=2&",
 //             parse_url("https://api.mangadex.org/manga", query_params)
@@ -34,8 +58,8 @@ pub fn parse_url(query: &str, query_params: HashMap<&str, &str>) -> String {
 //     #[test]
 //     fn url_parsing_2() {
 //         let mut query_params = HashMap::new();
-//         query_params.insert("limit", "2");
-//         query_params.insert("offset", "5");
+//         query_params.insert("limit", Some("2"));
+//         query_params.insert("offset", Some("5"));
 //         assert_eq!(
 //             "https://api.mangadex.org/manga?offset=5&limit=2&",
 //             parse_url("https://api.mangadex.org/manga", query_params)

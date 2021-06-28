@@ -1,4 +1,4 @@
-use super::utils::{get_data, parse_url};
+use super::utils::{get_data, parse_url, DynParam};
 use std::collections::HashMap;
 
 use crate::wrapper::{
@@ -51,18 +51,24 @@ use crate::wrapper::{
 /// # Example
 ///
 /// ```
+/// extern crate tokio;
 /// use std::collections::HashMap;
 /// use dex::wrapper::utils::DexWrappedObject;
 /// use dex::request::manga;
+/// use dex::request::utils::DynParam;
 ///
-/// let mut query_params = HashMap::new();
-///
-/// query_params.insert("limit", "2");
-/// query_params.insert("offset", "3");
-///
-/// let mangas = manga::search(query_params).unwrap();
-///
-/// println!("{}", mangas.serialize(true));
+/// #[tokio::main]
+/// async fn main() {
+///     let mut query_params = HashMap::new();
+///     
+///     query_params.insert("limit", DynParam::String(Some("2")));
+///     query_params.insert("offset", DynParam::String(Some("3")));
+///     query_params.insert("status", DynParam::String(None));
+/// 
+///     let mangas = manga::search(query_params).await.unwrap();
+/// 
+///     println!("{:?}", mangas.serialize(true)); 
+/// }
 /// ```
 ///
 /// # Panics
@@ -78,7 +84,7 @@ use crate::wrapper::{
 ///
 /// * api returns error json response
 /// * serde parsing error
-pub async fn search(query_params: HashMap<&str, &str>) -> Result<MangaList, DexError> {
+pub async fn search(query_params: HashMap<&str, DynParam<'_>>) -> Result<MangaList, DexError> {
     let uri = parse_url("https://api.mangadex.org/manga", query_params);
     MangaList::from_string(&get_data(&uri).await.unwrap())
 }
@@ -195,7 +201,7 @@ pub async fn random() -> Result<Manga, DexError> {
 ///
 /// * api returns error json response
 /// * serde parsing error
-pub async fn feed(id: &str, query_params: HashMap<&str, &str>) -> Result<ChapterList, DexError> {
+pub async fn feed(id: &str, query_params: HashMap<&str, DynParam<'_>>) -> Result<ChapterList, DexError> {
     let uri = parse_url(
         &format!("https://api.mangadex.org/manga/{}/feed", id),
         query_params,

@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use super::utils::{get_data, parse_url};
+use super::utils::{get_data, parse_url, DynParam};
 use crate::wrapper::{
     cover::Cover,
     cover_list::CoverList,
@@ -49,7 +49,7 @@ use crate::wrapper::{
 ///
 /// * api returns error json response
 /// * serde parsing error
-pub async fn search(query_params: HashMap<&str, &str>) -> Result<CoverList, DexError> {
+pub async fn search(query_params: HashMap<&str, DynParam<'_>>) -> Result<CoverList, DexError> {
     let uri = parse_url("https://api.mangadex.org/cover", query_params);
     CoverList::from_string(&get_data(&uri).await.unwrap())
 }

@@ -1,4 +1,4 @@
-pub mod meta {
+pub mod meta {    
     use dex::wrapper::error::ErrorList as DexErrorList;
     use rocket::response::{Responder, Response};
     use rocket::{http, request::Request, response};
@@ -64,4 +64,21 @@ pub mod meta {
             }
         }
     }
+
+    #[derive(FromForm)]
+    pub struct Order {
+        pub createdat: Option<String>,
+        pub updatedat: Option<String>
+    }
+}
+
+macro_rules! collection {
+    // map-like
+    ($($k:expr => $v:expr),* $(,)?) => {
+        std::iter::Iterator::collect(std::array::IntoIter::new([$(($k, $v),)*]))
+    };
+    // set-like
+    ($($v:expr),* $(,)?) => {
+        std::iter::Iterator::collect(std::array::IntoIter::new([$($v,)*]))
+    };
 }
