@@ -1,3 +1,5 @@
+#[cfg(test)] mod tests;
+
 #[macro_use]
 extern crate rocket;
 
@@ -44,11 +46,18 @@ async fn get_author(id: &str) -> ApiResponse {
     ApiResponse::resolve(result)
 }
 
+#[get("/get/chapter/<id>")]
+async fn get_chapter(id: &str) -> ApiResponse {
+    let result = chapter::get(id).await;
+
+    ApiResponse::resolve(result)
+}
+
 #[get("/get/cover/<id>")]
 async fn get_cover(id: &str) -> ApiResponse {
-    let result = cover::retrieve(id, 512).await;
+    let result = cover::get(id).await;
 
-    ApiResponse::resolve_url(result)
+    ApiResponse::resolve(result)
 }
 
 #[get("/search/manga?<limit>&<offset>&<title>&<ids>&<authors>&<year>&<includedtags>&<includedtagsmode>&<excludedtags>&<excludedtagsmode>&<status>&<originallanguage>&<publicationdemographic>&<contentrating>&<createdatsince>&<updatedatsince>&<order>")]
@@ -169,6 +178,13 @@ async fn chapter_retrieve(id: &str, quality: Option<&str>, hash: Option<String>,
     }
 }
 
+#[get("/cover/retrieve/<id>?<quality>")]
+async fn cover_retrieve(id: &str, quality: Option<u16>) -> ApiResponse {
+    let result = cover::retrieve(id, quality.unwrap_or_else(|| 512)).await;
+
+    ApiResponse::resolve_url(result)
+}
+
 #[launch]
 fn rocket() -> _ {
     rocket::build().mount(
@@ -178,11 +194,13 @@ fn rocket() -> _ {
             get_manga,
             get_author,
             get_cover,
+            get_chapter,
             search_author,
             search_manga,
             search_chapter,
             search_cover,
-            chapter_retrieve
+            chapter_retrieve,
+            cover_retrieve
         ],
     )
 }
