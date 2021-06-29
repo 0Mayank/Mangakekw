@@ -19,7 +19,6 @@ use dex::request::utils::DynParam::{
     Integer as I
 };
 
-use rocket::http;
 use utils::meta::{
     ApiResponse,
     Order
@@ -150,32 +149,7 @@ async fn chapter_retrieve(id: &str, quality: Option<&str>, hash: Option<String>,
     
     let result = chapter::retrieve(params).await;
     
-    match result {
-        Ok(v) => {
-            let mut list = String::from("");
-            let mut count = 0usize;
-
-            for i in v.iter() {
-                count += 1;
-                if list.len() == 0 {
-                    list = format!("{}{}", list, i);
-                } else {
-                    list = format!("{},{}", list, i);
-                }
-            }
-            
-            ApiResponse {
-                body: json!(
-                    {
-                        "data": [list],
-                        "count": count
-                    }
-                ).to_string(),
-                status: http::Status::Ok
-            }
-        },
-        Err(e) => ApiResponse::handle_error(e)
-    }
+    ApiResponse::resolve_vec(result)
 }
 
 #[get("/cover/retrieve/<id>?<quality>")]
