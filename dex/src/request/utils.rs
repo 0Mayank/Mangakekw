@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 pub enum DynParam<'a> {
     String(Option<&'a str>),
-    Array(Option<Vec<String>>),
+    Array(Vec<String>),
     Integer(Option<i32>)
 }
 
@@ -23,10 +23,8 @@ pub(crate) fn parse_url(query: &str, query_params: HashMap<&str, DynParam<'_>>) 
                 }
             }
             DynParam::Array(v) => {
-                if let Some(v) = v {
-                    for v in v.iter() {
-                        url = format!("{}{}[]={}&", url, k, v);
-                    }
+                for v in v.iter() {
+                    url = format!("{}{}[]={}&", url, k, v);
                 }
             }
             DynParam::Integer(v) => {

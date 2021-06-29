@@ -7,8 +7,8 @@ pub mod meta {
     use dex::wrapper::utils::DexError;
     use dex::wrapper::utils::DexWrappedObject;
     pub struct ApiResponse {
-        body: String,
-        status: http::Status,
+        pub body: String,
+        pub status: http::Status,
     }
 
     impl<'r> Responder<'r, 'static> for ApiResponse {
@@ -44,7 +44,7 @@ pub mod meta {
             }
         }
 
-        fn handle_error(error: DexError) -> ApiResponse {
+        pub fn handle_error(error: DexError) -> ApiResponse {
             match error {
                 DexError::InvalidRequest(error_list) => ApiResponse {
                     body: <DexErrorList as DexWrappedObject>::serialize(&error_list, false)
@@ -66,9 +66,9 @@ pub mod meta {
     }
 
     #[derive(FromForm)]
-    pub struct Order {
-        pub createdat: Option<String>,
-        pub updatedat: Option<String>
+    pub struct Order<'a> {
+        pub createdat: Option<&'a str>,
+        pub updatedat: Option<&'a str>
     }
 }
 

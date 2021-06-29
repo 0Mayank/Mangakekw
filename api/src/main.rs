@@ -8,6 +8,7 @@ extern crate serde_json;
 mod utils;
 
 use dex::request::author;
+use dex::request::chapter::{self, CqueryParams};
 use dex::request::cover;
 use dex::request::manga;
 use dex::request::utils::DynParam::{
@@ -15,6 +16,8 @@ use dex::request::utils::DynParam::{
     Array as A,
     Integer as I
 };
+
+use rocket::http;
 use utils::meta::{
     ApiResponse,
     Order
@@ -48,25 +51,25 @@ async fn get_cover(id: &str) -> ApiResponse {
     ApiResponse::resolve_url(result)
 }
 
-#[get("/search/manga?<limit>&<offset>&<title>&<ids>&<authors>&<year>&<includedtags>&<includedtagsmode>&<excludedtags>&<excludedtagsmode>&<status>&<originallanguage>&<publicationdemographic>&<contentrating>&<createdatsince>&<updatedatsince>&<_order>")]
+#[get("/search/manga?<limit>&<offset>&<title>&<ids>&<authors>&<year>&<includedtags>&<includedtagsmode>&<excludedtags>&<excludedtagsmode>&<status>&<originallanguage>&<publicationdemographic>&<contentrating>&<createdatsince>&<updatedatsince>&<order>")]
 async fn search_manga(
     limit: Option<&str>, 
     offset: Option<&str>, 
     title: Option<&str>, 
-    ids: Option<Vec<String>>, // ids should be Option<Vec<&str>>
-    authors: Option<Vec<String>>,
+    ids: Vec<String>, // ids should be Option<Vec<&str>>
+    authors: Vec<String>,
     year: Option<i32>,
-    includedtags: Option<Vec<String>>,
+    includedtags: Vec<String>,
     includedtagsmode: Option<&str>,
-    excludedtags: Option<Vec<String>>,
+    excludedtags: Vec<String>,
     excludedtagsmode: Option<&str>,
-    status: Option<Vec<String>>,
-    originallanguage: Option<Vec<String>>,
-    publicationdemographic: Option<Vec<String>>,
-    contentrating: Option<Vec<String>>,
+    status: Vec<String>,
+    originallanguage: Vec<String>,
+    publicationdemographic: Vec<String>,
+    contentrating: Vec<String>,
     createdatsince: Option<&str>,
     updatedatsince: Option<&str>,
-    _order: Order
+    order: Order<'_>
 ) -> ApiResponse 
 {
     let query_params: HashMap<_,_> = collection!(
@@ -86,6 +89,8 @@ async fn search_manga(
         "contentRating" => A(contentrating),
         "createdAtSince" => S(createdatsince),
         "updatedAtSince" => S(updatedatsince),
+        "order[createdAt]" => S(order.createdat),
+        "order[updatedAt]" => S(order.updatedat)
     );
     
     let result = manga::search(query_params).await;
@@ -108,6 +113,62 @@ async fn search_cover(_id: &str) -> ApiResponse {
     todo!()
 }
 
+#[get("/chapter/retrieve/<id>?<quality>&<hash>&<files>")]
+async fn chapter_retrieve(id: &str, quality: Option<&str>, hash: Option<String>, files: Vec<String>) -> ApiResponse {
+    let params;
+    println!("{:?}", files);
+    
+    if let Some(hash) = hash{ // TODO blonteractor does refractor
+        if files.len() != 0 {
+            params = CqueryParams::WithHF{
+                id,
+                quality: quality.unwrap_or_else(|| "data"),
+                hash,
+                file_names: files
+            }
+        } else {
+            params = CqueryParams::WithoutHF{
+                id,
+                quality: quality.unwrap_or_else(|| "data"),
+            }
+        }
+    } else {
+        params = CqueryParams::WithoutHF{
+            id,
+            quality: quality.unwrap_or_else(|| "data"),
+        }
+    }
+    
+    let result = chapter::retrieve(params).await;
+    
+    match result {
+        Ok(v) => {
+            let mut list = String::from("");
+            let mut count = 0usize;
+
+            for i in v.iter() {
+                count += 1;
+                if list.len() == 0 {
+                    list = format!("{}{}", list, i);
+                } else {
+                    list = format!("{},{}", list, i);
+                }
+            }
+            
+            ApiResponse {
+                body: json!(
+                    {
+                        "data": [list],
+                        "count": count
+                    }
+                ).to_string(),
+                status: http::Status::Ok
+            }
+        },
+        Err(e) => ApiResponse::handle_error(e)
+    }
+}
+
 #[launch]
 fn rocket() -> _ {
     rocket::build().mount(
@@ -120,7 +181,8 @@ fn rocket() -> _ {
             search_author,
             search_manga,
             search_chapter,
-            search_cover
+            search_cover,
+            chapter_retrieve
         ],
     )
 }
