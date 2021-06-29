@@ -118,7 +118,7 @@ async fn chapter_retrieve(id: &str, quality: Option<&str>, hash: Option<String>,
     let params;
     println!("{:?}", files);
     
-    if let Some(hash) = hash{ // TODO blonteractor does refractor
+    if let Some(hash) = hash{ // TODO blonteractor does the refractor
         if files.len() != 0 {
             params = CqueryParams::WithHF{
                 id,
