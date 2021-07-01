@@ -1,0 +1,21 @@
+{
+  "result": "ok",
+  "data": {
+    "id": "820b13ef-dc7d-42b1-999a-65393b8b4040",
+    "type": "author",
+    "attributes": {
+      "name": "Chugong 추공",
+      "imageUrl": null,
+      "biography": [],
+      "createdAt": "2021-04-19T21:59:45+00:00",
+      "updatedAt": "2021-04-19T21:59:45+00:00",
+      "version": 1
+    }
+  },
+  "relationships": [
+    {
+      "id": "32d76d19-8a05-4db0-9fc2-e0b0648fe9d0",
+      "type": "manga"
+    }
+  ]
+}
