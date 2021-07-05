@@ -1,11 +1,12 @@
 pub mod meta {    
-    use dex::wrapper::error::ErrorList as DexErrorList;
+    use dex::{
+        DexErrorList,
+        DexError,
+        DexWrappedObject
+    };
     use rocket::response::{Responder, Response};
     use rocket::{http, request::Request, response};
     use std::io::Cursor;
-
-    use dex::wrapper::utils::DexError;
-    use dex::wrapper::utils::DexWrappedObject;
     pub struct ApiResponse {
         pub body: String,
         pub status: http::Status,
