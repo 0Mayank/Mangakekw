@@ -1,5 +1,6 @@
 pub mod parser;
-pub mod tests;
+pub mod request;
+mod tests;
 
 use super::utils;
 use chrono::{DateTime, FixedOffset};

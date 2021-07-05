@@ -1,4 +1,5 @@
 mod parser;
+pub mod request;
 
 use super::chapter::Chapter;
 use super::utils;

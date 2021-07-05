@@ -88,17 +88,17 @@ pub fn manga_status() {
     let solo = test_responses.get(2).unwrap();
 
     match opm.status {
-        crate::wrapper::utils::Status::Ongoing => {}
+        super::super::utils::Status::Ongoing => {}
         _ => panic!("Wrong Status"),
     }
 
     match slime.status {
-        crate::wrapper::utils::Status::Ongoing => {}
+        super::super::utils::Status::Ongoing => {}
         _ => panic!("Wrong Status"),
     }
 
     match solo.status {
-        crate::wrapper::utils::Status::Ongoing => {}
+        super::super::utils::Status::Ongoing => {}
         _ => panic!("Wrong Status"),
     }
 }
@@ -112,17 +112,17 @@ pub fn manga_rating() {
     let solo = test_responses.get(2).unwrap();
 
     match opm.content_rating {
-        crate::wrapper::utils::ContentRating::Safe => {}
+        super::super::utils::ContentRating::Safe => {}
         _ => panic!("Wrong ContentRating"),
     }
 
     match slime.content_rating {
-        crate::wrapper::utils::ContentRating::Safe => {}
+        super::super::utils::ContentRating::Safe => {}
         _ => panic!("Wrong ContentRating"),
     }
 
     match solo.content_rating {
-        crate::wrapper::utils::ContentRating::Safe => {}
+        super::super::utils::ContentRating::Safe => {}
         _ => panic!("Wrong ContentRating"),
     }
 }

@@ -1,4 +1,5 @@
 pub mod parser;
+pub mod request;
 mod tests;
 
 use super::utils;

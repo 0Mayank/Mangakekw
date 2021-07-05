@@ -1,4 +1,5 @@
 mod parser;
+pub mod request;
 
 use super::manga;
 use super::utils;
