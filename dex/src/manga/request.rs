@@ -15,12 +15,12 @@ impl Manga {
     ///
     /// ```
     /// extern crate tokio;
-    /// use dex::wrapper::utils::DexWrappedObject;
-    /// use dex::request::manga;
+    /// use dex::DexWrappedObject;
+    /// use dex::Manga;
     ///
     /// #[tokio::main]
     /// async fn main() {
-    ///     let manga = manga::get("eb2d1a45-d4e7-4e32-a171-b5b029c5b0cb").await.unwrap();
+    ///     let manga = Manga::get("eb2d1a45-d4e7-4e32-a171-b5b029c5b0cb").await.unwrap();
     ///     println!("{:?}", manga.serialize(true));
     /// }
     /// ```
@@ -48,11 +48,15 @@ impl Manga {
     /// # Example
     ///
     /// ```
-    /// use dex::wrapper::utils::DexWrappedObject;
-    /// use dex::request::manga;
+    /// extern crate tokio;
+    /// use dex::DexWrappedObject;
+    /// use dex::Manga;
     ///
-    /// let manga = manga::random().unwrap();
-    /// println!("{}", manga.serialize(true));
+    /// #[tokio::main]
+    /// async fn main() {
+    ///     let manga = Manga::random().await.unwrap();
+    ///     println!("{:?}", manga.serialize(true));
+    /// }
     /// ```
     ///
     /// # Panics

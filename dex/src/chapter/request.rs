@@ -15,11 +15,15 @@ impl Chapter {
     /// # Example
     ///
     /// ```
-    /// use dex::wrapper::utils::DexWrappedObject;
-    /// use dex::request::chapter;
+    /// extern crate tokio;
+    /// use dex::DexWrappedObject;
+    /// use dex::Chapter;
     ///
-    /// let chapter = chapter::get("f5ec5e4f-2c95-48ca-b3f9-8e9ed6227928").unwrap();
-    /// println!("{}",chapter.serialize(true));
+    /// #[tokio::main]
+    /// async fn main() {
+    ///     let chapter = Chapter::get("f5ec5e4f-2c95-48ca-b3f9-8e9ed6227928").await.unwrap();
+    ///     println!("{:?}", chapter.serialize(true));
+    /// }
     /// ```
     ///
     /// # Panics
@@ -54,17 +58,18 @@ impl Chapter {
     ///
     /// ```
     /// extern crate tokio;
-    /// use dex::wrapper::utils::DexWrappedObject;
-    /// use dex::request::chapter::{self, CqueryParams};
+    /// use dex::DexWrappedObject;
+    /// use dex::Chapter;
+    /// use dex::ParamSet;
     ///
     /// #[tokio::main]
     /// async fn main() {
-    ///     let params = CqueryParams::WithoutHF {
+    ///     let params = ParamSet::WithoutHF {
     ///          id: "f5ec5e4f-2c95-48ca-b3f9-8e9ed6227928",
     ///          quality: "data"      
     ///         };
     ///
-    ///     let chapter = chapter::retrieve(params).await.unwrap();
+    ///     let chapter = Chapter::retrieve(params).await.unwrap();
     ///     println!("{:?}", chapter);
     /// }
     /// ```

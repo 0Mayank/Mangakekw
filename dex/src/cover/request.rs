@@ -14,11 +14,15 @@ impl Cover {
     /// # Example
     ///
     /// ```
-    /// use dex::wrapper::utils::DexWrappedObject;
-    /// use dex::request::cover;
+    /// extern crate tokio;
+    /// use dex::DexWrappedObject;
+    /// use dex::Cover;
     ///
-    /// let cover = cover::get("e3d51092-6377-4f5a-8691-d9cec1adf640").unwrap();
-    /// println!("{}", cover.serialize(true));
+    /// #[tokio::main]
+    /// async fn main() {
+    ///     let cover = Cover::get("94baea07-7492-4fa7-a5c2-a19beaee4da6").await.unwrap();
+    ///     println!("{:?}", cover.serialize(true));
+    /// }
     /// ```
     ///
     /// # Panics
@@ -53,11 +57,16 @@ impl Cover {
     /// # Example
     ///
     /// ```
-    /// use dex::wrapper::utils::DexWrappedObject;
-    /// use dex::request::cover;
+    /// extern crate tokio;
+    /// use dex::DexWrappedObject;
+    /// use dex::Cover;
+    /// use dex::ParamSet;
     ///
-    /// let cover_image = cover::retrieve("e3d51092-6377-4f5a-8691-d9cec1adf640", 512).unwrap();
-    /// println!("{}", cover_image);
+    /// #[tokio::main]
+    /// async fn main() {
+    ///     let cover_image = Cover::retrieve("94baea07-7492-4fa7-a5c2-a19beaee4da6", 512).await.unwrap();
+    ///     println!("{}", cover_image);
+    /// }
     /// ```
     ///
     /// # Panics

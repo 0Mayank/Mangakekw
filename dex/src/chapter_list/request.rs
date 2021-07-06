@@ -31,18 +31,24 @@ impl ChapterList {
     /// # Example
     ///
     /// ```
+    /// extern crate tokio;
     /// use std::collections::HashMap;
-    /// use dex::wrapper::utils::DexWrappedObject;
-    /// use dex::request::chapter;
+    /// use dex::DexWrappedObject;
+    /// use dex::ChapterList;
+    /// use dex::ParamType;
     ///
-    /// let mut query_params = HashMap::new();
-    ///
-    /// query_params.insert("limit", "2");
-    /// query_params.insert("offset", "3");
-    ///
-    /// let chapters = chapter::search(query_params).unwrap();
-    ///
-    /// println!("{}", chapters.serialize(true));
+    /// #[tokio::main]
+    /// async fn main() {
+    ///     let mut query_params = HashMap::new();
+    ///     
+    ///     query_params.insert("limit", ParamType::String(Some("2")));
+    ///     query_params.insert("offset", ParamType::String(Some("3")));
+    ///     query_params.insert("status", ParamType::String(None)); // gets ignored
+    /// 
+    ///     let chapters = ChapterList::search(query_params).await.unwrap();
+    /// 
+    ///     println!("{:?}", chapters.serialize(true)); 
+    /// }
     /// ```
     ///
     /// # Panics
@@ -63,7 +69,7 @@ impl ChapterList {
         ChapterList::from_string(&get_data(&uri).await.unwrap())
     }
 
-        /// Feed manga chapters by passing manga id and query parameters as query params. Query: "https://api.mangadex.org/manga".
+    /// Feed manga chapters by passing manga id and query parameters as query params. Query: "https://api.mangadex.org/manga".
     ///
     /// # Arguments
     ///
@@ -80,18 +86,24 @@ impl ChapterList {
     /// # Example
     ///
     /// ```
+    /// extern crate tokio;
     /// use std::collections::HashMap;
-    /// use dex::wrapper::utils::DexWrappedObject;
-    /// use dex::request::manga;
+    /// use dex::DexWrappedObject;
+    /// use dex::ChapterList;
+    /// use dex::ParamType;
     ///
-    /// let mut query_params = HashMap::new();
+    /// #[tokio::main]
+    /// async fn main() {
+    ///     let mut query_params = HashMap::new();
+    ///     
+    ///     query_params.insert("limit", ParamType::String(Some("2")));
+    ///     query_params.insert("offset", ParamType::String(Some("3")));
+    ///     query_params.insert("status", ParamType::String(None)); // gets ignored
     ///
-    /// query_params.insert("limit", "2");
-    /// query_params.insert("offset", "3");
+    ///     let chapters = ChapterList::feed("eb2d1a45-d4e7-4e32-a171-b5b029c5b0cb",query_params).await.unwrap();
     ///
-    /// let chapters = manga::feed("eb2d1a45-d4e7-4e32-a171-b5b029c5b0cb", query_params).unwrap();
-    ///
-    /// println!("{}", chapters.serialize(true));
+    ///     println!("{:?}", chapters.serialize(true));
+    /// }
     /// ```
     ///
     /// # Panics
