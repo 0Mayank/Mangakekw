@@ -1,21 +1,20 @@
 #[cfg(test)] mod tests;
 
-#[macro_use]
-extern crate rocket;
+#[macro_use] extern crate rocket;
+#[macro_use] extern crate serde_json;
 
-#[macro_use]
-extern crate serde_json;
-
-#[macro_use]
-mod utils;
+#[macro_use] mod utils;
 
 mod routes;
+mod error_catchers;
 
 use routes::*;
+use error_catchers::*;
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount(
+    rocket::build()
+    .mount(
         "/api/",
         routes![
             index,
@@ -31,4 +30,5 @@ fn rocket() -> _ {
             cover_retrieve
         ],
     )
+    .register("/api", catchers![does_not_exist])
 }
