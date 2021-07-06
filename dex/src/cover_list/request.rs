@@ -23,18 +23,24 @@ impl CoverList {
     /// # Example
     ///
     /// ```
+    /// extern crate tokio;
     /// use std::collections::HashMap;
-    /// use dex::wrapper::utils::DexWrappedObject;
-    /// use dex::request::cover;
+    /// use dex::DexWrappedObject;
+    /// use dex::CoverList;
+    /// use dex::ParamType;
     ///
-    /// let mut query_params = HashMap::new();
-    ///
-    /// query_params.insert("limit", "2");
-    /// query_params.insert("offset", "3");
-    ///
-    /// let covers = cover::search(query_params).unwrap();
-    ///
-    /// println!("{}", covers.serialize(true));
+    /// #[tokio::main]
+    /// async fn main() {
+    ///     let mut query_params = HashMap::new();
+    ///     
+    ///     query_params.insert("limit", ParamType::String(Some("2")));
+    ///     query_params.insert("offset", ParamType::String(Some("3")));
+    ///     query_params.insert("status", ParamType::String(None)); // gets ignored
+    /// 
+    ///     let covers = CoverList::search(query_params).await.unwrap();
+    /// 
+    ///     println!("{:?}", covers.serialize(true)); 
+    /// }
     /// ```
     ///
     /// # Panics

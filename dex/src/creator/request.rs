@@ -14,11 +14,15 @@ impl CreatorTemplate {
     /// # Example
     ///
     /// ```
-    /// use dex::wrapper::utils::DexWrappedObject;
-    /// use dex::request::author;
+    /// extern crate tokio;
+    /// use dex::DexWrappedObject;
+    /// use dex::Author;
     ///
-    /// let author = author::get("15fe4d54-ae08-4177-af94-868bb7db1bcf").unwrap();
-    /// println!("{}",author.serialize(true));
+    /// #[tokio::main]
+    /// async fn main() {
+    ///     let author = Author::get("15fe4d54-ae08-4177-af94-868bb7db1bcf").await.unwrap();
+    ///     println!("{:?}", author.serialize(true));
+    /// }
     /// ```
     ///
     /// # Panics

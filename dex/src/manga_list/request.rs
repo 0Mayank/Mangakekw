@@ -53,19 +53,19 @@ impl MangaList {
     /// ```
     /// extern crate tokio;
     /// use std::collections::HashMap;
-    /// use dex::wrapper::utils::DexWrappedObject;
-    /// use dex::request::manga;
-    /// use dex::request::utils::DynParam;
+    /// use dex::DexWrappedObject;
+    /// use dex::MangaList;
+    /// use dex::ParamType;
     ///
     /// #[tokio::main]
     /// async fn main() {
     ///     let mut query_params = HashMap::new();
     ///     
-    ///     query_params.insert("limit", DynParam::String(Some("2")));
-    ///     query_params.insert("offset", DynParam::String(Some("3")));
-    ///     query_params.insert("status", DynParam::String(None));
+    ///     query_params.insert("limit", ParamType::String(Some("2")));
+    ///     query_params.insert("offset", ParamType::String(Some("3")));
+    ///     query_params.insert("status", ParamType::String(None)); // gets ignored
     /// 
-    ///     let mangas = manga::search(query_params).await.unwrap();
+    ///     let mangas = MangaList::search(query_params).await.unwrap();
     /// 
     ///     println!("{:?}", mangas.serialize(true)); 
     /// }
